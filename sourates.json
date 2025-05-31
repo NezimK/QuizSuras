@@ -1,0 +1,20 @@
+[
+    {
+        "numero": 1,
+        "nom": "Al-Fatiha",
+        "traduction": "L'Ouverture",
+        "versets": 7
+    },
+    {
+        "numero": 2,
+        "nom": "Al-Baqara",
+        "traduction": "La Vache",
+        "versets": 286
+    },
+    {
+        "numero": 3,
+        "nom": "Al-Imran",
+        "traduction": "La Famille d'Imran",
+        "versets": 200
+    }
+]
