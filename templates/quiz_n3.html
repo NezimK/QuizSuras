@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Niveau 3</title>
+</head>
+<body>
+<h3>Score : {{ score }}</h3>
+
+    <h2>Sourate {{ question.numero }}</h2>
+    <form method="POST">
+        <label>Nombre de versets :</label>
+        <input type="text" name="versets"><br>
+
+        <label>Nom arabe (phonétique) :</label>
+        <input type="text" name="nom"><br>
+
+        <label>Traduction française :</label>
+        <input type="text" name="traduction"><br>
+
+        <button type="submit">Valider</button>
+    </form>
+</body>
+</html>
