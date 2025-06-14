@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz Niveau 1</title>
+  <meta charset="UTF-8">
+  <title>Quiz</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}">
 </head>
-<body>
-    <h3>Score : {{ score }}</h3>
+<body class="quiz">
+  <div class="quiz-container">
+    <h2 class="quiz-title">Question {{ score + 1 }}</h2>
 
-    <h2>Combien de versets contient la sourate {{ question.nom }} ?</h2>
     <form method="POST">
-        <input type="text" name="reponse" placeholder="Nombre de versets">
-        <button type="submit">Valider</button>
+      <div class="question">{{ question["nom"] }}</div>
+      <label class="option">
+        <input type="text" name="reponse" required>
+      </label>
+      <button type="submit" class="submit-button">Valider</button>
     </form>
+  </div>
 </body>
 </html>
