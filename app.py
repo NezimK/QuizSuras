@@ -9,38 +9,84 @@ def home():
     # Page d'accueil avec le choix du niveau
     return render_template('home.html')
 
+@app.route("/start", methods=["POST"])
+def start_quiz():
+    niveau = request.form.get("niveau")  # récupère le niveau choisi (1, 2 ou 3)
+    
+    if niveau not in ["1", "2", "3"]:
+        return "Niveau invalide", 400
+
+    session.clear()  # on vide l’ancienne session (précaution)
+    session["niveau"] = niveau
+    session["score"] = 0
+    session["current_q"] = 0
+
+    return redirect("/quiz")
+
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    # On charge les sourates depuis le fichier JSON
+    niveau = request.args.get("niveau") or session.get("niveau")
+
+    # Si aucun niveau n’est sélectionné, rediriger vers la page d’accueil
+    if not niveau:
+        return redirect(url_for("home"))
+
+    # Enregistre le niveau dans la session s’il est nouveau
+    if "niveau" not in session:
+        session["niveau"] = niveau
+        session["score"] = 0
+        session["current_q"] = 0
+
+    # Charger les données
     with open("sourates.json", "r", encoding="utf-8") as f:
         sourates = json.load(f)
 
-    # Si c’est le début du quiz, on initialise les variables
-    if "score" not in session:
-        session['score'] = 0
-        session['current_q'] = 0
+    current_q = session["current_q"]
 
-    current_q = session["current_q"]  # Index de la question actuelle
-
-    # Si toutes les questions ont été posées, on affiche le score final
+    # Fin du quiz
     if current_q >= len(sourates):
         score = session["score"]
-        session.clear()  # On réinitialise la session
-        return f"<h2>Quiz terminé ! Score final : {score}/{len(sourates)}</h2><a href='/quiz'>Recommencer</a>"
+        session.clear()
+        return f"<h2>Quiz terminé ! Score final : {score}/{len(sourates) * niveau_max(niveau)}</h2><a href='/'>Recommencer</a>"
 
-    # On récupère la question actuelle
     question = sourates[current_q]
 
-    # Si le formulaire est soumis (POST)
     if request.method == "POST":
-        reponse = request.form.get("reponse")  # Réponse utilisateur
-        if reponse == str(question["versets"]):  # Bonne réponse ?
-            session['score'] += 1
-        session["current_q"] += 1  # Passer à la question suivante
-        return redirect("/quiz")  # Rafraîchit la page pour afficher la suivante
+        # Traiter les réponses en fonction du niveau
+        if niveau == "1":
+            reponse = request.form.get("reponse", "").strip()
+            if reponse == str(question["versets"]):
+                session["score"] += 1
+        elif niveau == "2":
+            v = request.form.get("versets", "").strip()
+            t = request.form.get("traduction", "").strip().lower()
+            if v == str(question["versets"]):
+                session["score"] += 1
+            if t == question["traduction"].lower():
+                session["score"] += 1
+        elif niveau == "3":
+            v = request.form.get("versets", "").strip()
+            t = request.form.get("traduction", "").strip().lower()
+            n = request.form.get("nom", "").strip().lower()
+            if v == str(question["versets"]):
+                session["score"] += 1
+            if t == question["traduction"].lower():
+                session["score"] += 1
+            if n == question["nom"].lower():
+                session["score"] += 1
 
-    # Affichage de la question avec le score en haut
-    return render_template("quiz_n1.html", question=question, score=session["score"])
+        session["current_q"] += 1
+        return redirect("/quiz")
+
+    # Afficher le template correspondant au niveau
+    return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"])
+
+def niveau_max(niveau):
+    return {
+        "1": 1,
+        "2": 2,
+        "3": 3
+    }.get(niveau, 1)
 
 @app.route('/reset')
 def reset():
