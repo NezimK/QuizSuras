@@ -11,15 +11,20 @@ def home():
 
 @app.route("/start", methods=["POST"])
 def start_quiz():
-    niveau = request.form.get("niveau")  # récupère le niveau choisi (1, 2 ou 3)
-    
-    if niveau not in ["1", "2", "3"]:
-        return "Niveau invalide", 400
+    niveau = request.form.get("niveau")
+    mode = request.form.get("mode")
 
-    session.clear()  # on vide l’ancienne session (précaution)
+    if niveau not in ["1", "2", "3"] or mode not in ["canonique", "chronologique"]:
+        return "Niveau ou mode invalide", 400
+
+    session.clear()
     session["niveau"] = niveau
+    session["mode"] = mode
     session["score"] = 0
     session["current_q"] = 0
+
+    return redirect("/quiz")
+
 
     return redirect("/quiz")
 
@@ -40,6 +45,12 @@ def quiz():
     # Charger les données
     with open("sourates.json", "r", encoding="utf-8") as f:
         sourates = json.load(f)
+        mode = session.get("mode", "canonique")
+
+    if mode == "canonique":
+        sourates.sort(key=lambda s: s["ordre_canonique"])
+    else:
+        sourates.sort(key=lambda s: s["ordre_chronologique"])
 
     current_q = session["current_q"]
 
@@ -52,31 +63,47 @@ def quiz():
     question = sourates[current_q]
 
     if request.method == "POST":
-        # Traiter les réponses en fonction du niveau
-        if niveau == "1":
-            reponse = request.form.get("reponse", "").strip()
-            if reponse == str(question["versets"]):
-                session["score"] += 1
-        elif niveau == "2":
-            v = request.form.get("versets", "").strip()
-            t = request.form.get("traduction", "").strip().lower()
-            if v == str(question["versets"]):
-                session["score"] += 1
-            if t == question["traduction"].lower():
-                session["score"] += 1
-        elif niveau == "3":
-            v = request.form.get("versets", "").strip()
-            t = request.form.get("traduction", "").strip().lower()
-            n = request.form.get("nom", "").strip().lower()
-            if v == str(question["versets"]):
-                session["score"] += 1
-            if t == question["traduction"].lower():
-                session["score"] += 1
-            if n == question["nom"].lower():
-                session["score"] += 1
+        action = request.form.get("action")
 
-        session["current_q"] += 1
-        return redirect("/quiz")
+        if action == "valider":
+            if niveau == "1":
+                reponse = request.form.get("reponse", "").strip()
+                if reponse == str(question["versets"]):
+                    session["score"] += 1
+            elif niveau == "2":
+                v = request.form.get("versets", "").strip()
+                t = request.form.get("traduction", "").strip().lower()
+                if v == str(question["versets"]):
+                    session["score"] += 1
+                if t == question["traduction"].lower():
+                    session["score"] += 1
+            elif niveau == "3":
+                v = request.form.get("versets", "").strip()
+                t = request.form.get("traduction", "").strip().lower()
+                n = request.form.get("nom", "").strip().lower()
+                if v == str(question["versets"]):
+                    session["score"] += 1
+                if t == question["traduction"].lower():
+                    session["score"] += 1
+                if n == question["nom"].lower():
+                    session["score"] += 1
+            session["current_q"] += 1
+            return redirect("/quiz")
+
+        elif action == "je_sais_pas":
+            session["current_q"] += 1
+            return redirect("/quiz")
+
+        elif action == "continuer":
+            session["current_q"] += 1
+            return redirect("/quiz")
+
+        elif action == "recommencer":
+            return redirect(url_for("reset"))
+
+
+    # Si action == "voir_reponse", ne rien faire (rester sur la même question)
+
 
     # Afficher le template correspondant au niveau
     return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"])
