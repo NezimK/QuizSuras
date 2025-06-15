@@ -1,20 +1,23 @@
 [
-    {
-        "numero": 1,
-        "nom": "Al-Fatiha",
-        "traduction": "L'Ouverture",
-        "versets": 7
-    },
-    {
-        "numero": 2,
-        "nom": "Al-Baqara",
-        "traduction": "La Vache",
-        "versets": 286
-    },
-    {
-        "numero": 3,
-        "nom": "Al-Imran",
-        "traduction": "La Famille d'Imran",
-        "versets": 200
-    }
+  {
+    "nom": "Al-Fatiha",
+    "versets": 7,
+    "traduction": "L'ouverture",
+    "ordre_canonique": 1,
+    "ordre_chronologique": 5
+  },
+  {
+    "nom": "Al-Baqara",
+    "versets": 286,
+    "traduction": "La vache",
+    "ordre_canonique": 2,
+    "ordre_chronologique": 87
+  },
+  {
+    "nom": "Al-'Alaq",
+    "versets": 19,
+    "traduction": "L'adhérence",
+    "ordre_canonique": 96,
+    "ordre_chronologique": 1
+  }
 ]
