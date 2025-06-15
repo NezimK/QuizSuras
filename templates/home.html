@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Choix du niveau</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
+
 <body class="home">
     <div class="container">
         <h1>Choisis ton niveau</h1>
@@ -12,8 +14,12 @@
             <label><input type="radio" name="niveau" value="1" required> Niveau 1 (Nombre de versets)</label><br>
             <label><input type="radio" name="niveau" value="2"> Niveau 2 (Niveau 1 + Traduction FR)</label><br>
             <label><input type="radio" name="niveau" value="3"> Niveau 3 (Niveau 2 + Nom arabe phonétique)</label><br>
+            <p>Ordre :</p>
+            <label><input type="radio" name="mode" value="canonique" required> Canonique</label><br>
+            <label><input type="radio" name="mode" value="chronologique"> Chronologique</label><br>
             <button type="submit">Commencer</button>
         </form>
     </div>
 </body>
+
 </html>
