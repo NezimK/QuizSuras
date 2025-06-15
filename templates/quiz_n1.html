@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
-  <title>Quiz</title>
+  <title>Quiz Niveau 1</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}">
 </head>
-<body class="quiz">
+
+<body>
   <div class="quiz-container">
-    <h2 class="quiz-title">Question {{ score + 1 }}</h2>
+    <h2 class="quiz-title">Question {{ question["nom"] }}</h2>
+    <p class="question">Combien de versets contient cette sourate ?</p>
 
     <form method="POST">
-      <div class="question">{{ question["nom"] }}</div>
-      <label class="option">
-        <input type="text" name="reponse" required>
-      </label>
-      <button type="submit" class="submit-button">Valider</button>
+      <input type="text" name="reponse" placeholder="Nombre de versets">
+
+      <div class="actions">
+        <button type="submit" name="action" value="valider">Valider</button>
+        <button type="submit" name="action" value="je_sais_pas">Je ne sais pas</button>
+        <button type="submit" name="action" value="voir_reponse">Voir réponse</button>
+      </div>
     </form>
+
+    {% if request.form.get("action") == "voir_reponse" %}
+  <p>Réponse : {{ question["versets"] }}</p>
+  <form method="POST">
+    <button type="submit" name="action" value="continuer">Continuer</button>
+    <button type="submit" name="action" value="recommencer">Recommencer</button>
+  </form>
+{% endif %}
+
+
+    <p>Score actuel : {{ score }}</p>
   </div>
 </body>
+
 </html>
