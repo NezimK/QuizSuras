@@ -106,7 +106,7 @@ def quiz():
 
 
     # Afficher le template correspondant au niveau
-    return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"])
+    return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"], mode=mode)
 
 def niveau_max(niveau):
     return {
