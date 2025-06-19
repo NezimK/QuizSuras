@@ -14,8 +14,11 @@ def home():
 def start_quiz():
     niveau = request.form.get("niveau")
     mode = request.form.get("mode")
-
-    if niveau not in ["1", "2", "3"] or mode not in ["canonique", "chronologique"]:
+    
+    if (
+        niveau not in ["1", "2", "3"]
+        or mode not in ["canonique", "chronologique", "aleatoire"]
+    ):
         return "Niveau ou mode invalide", 400
 
     session.clear()
@@ -23,10 +26,7 @@ def start_quiz():
     session["mode"] = mode
     session["score"] = 0
     session["current_q"] = 0
-
-    return redirect("/quiz")
-
-
+    session['ordre'] = mode
     return redirect("/quiz")
 
 @app.route("/quiz", methods=["GET", "POST"])
@@ -42,16 +42,29 @@ def quiz():
         session["niveau"] = niveau
         session["score"] = 0
         session["current_q"] = 0
+        
+    mode = session.get("mode", "canonique")
+    ordre = session.get("ordre", "normal")
 
     # Charger les données
-    with open("sourates.json", "r", encoding="utf-8") as f:
-        sourates = json.load(f)
-        mode = session.get("mode", "canonique")
+    if "questions" not in session:
+        with open("sourates.json", "r", encoding="utf-8") as f:
+            sourates = json.load(f)
 
-    if mode == "canonique":
-        sourates.sort(key=lambda s: s["ordre_canonique"])
-    else:
-        sourates.sort(key=lambda s: s["ordre_chronologique"])
+        if mode == "canonique":
+            sourates.sort(key=lambda s: s["ordre_canonique"])
+        else:
+            sourates.sort(key=lambda s: s["ordre_chronologique"])
+
+        if ordre == "aleatoire":
+            import random
+            random.shuffle(sourates)
+
+    # Stocker les données traitées dans la session
+        session["questions"] = sourates
+
+    # Toujours charger les questions depuis la session
+    sourates = session["questions"]
 
     current_q = session["current_q"]
 
