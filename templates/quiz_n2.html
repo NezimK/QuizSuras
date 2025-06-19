@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Quiz Niveau 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='quiz_n2.css') }}">
 </head>
 <body>
-<h3>Score : {{ score }}</h3>
+    <div class="div-container 2">
 
-    <h2>Sourate {{ question.nom }}</h2>
+    <h2 class="quiz-title">Sourate {{ question.nom }}</h2>
     <form method="POST">
         <label>Nombre de versets :</label>
         <input type="text" name="versets"><br>
@@ -15,7 +16,24 @@
         <label>Traduction française :</label>
         <input type="text" name="traduction"><br>
 
-        <button type="submit">Valider</button>
+        <div class="actions">
+        <button type="submit" name="action" value="valider">Valider</button>
+        <button type="submit" name="action" value="je_sais_pas">Je ne sais pas</button>
+        <button type="submit" name="action" value="voir_reponse">Voir réponse</button>
+      </div>
     </form>
+
+    {% if request.form.get("action") == "voir_reponse" %}
+  <p>Réponse : {{ question["versets"] }}</p>
+  <p>Réponse : {{ question["traduction"] }}</p>
+  <form method="POST">
+    <button type="submit" name="action" value="continuer">Continuer</button>
+    <button type="submit" name="action" value="recommencer">Recommencer</button>
+  </form>
+{% endif %}
+
+
+    <p>Score actuel : {{ score }}</p>
+    </div>
 </body>
 </html>
