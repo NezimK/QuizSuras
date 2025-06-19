@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import json
+import re
 
 app = Flask(__name__)
 app.secret_key = "votre_clé_secrète"  # Obligatoire pour utiliser session
@@ -81,12 +82,14 @@ def quiz():
                 v = request.form.get("versets", "").strip()
                 t = request.form.get("traduction", "").strip().lower()
                 n = request.form.get("nom", "").strip().lower()
+
                 if v == str(question["versets"]):
                     session["score"] += 1
                 if t == question["traduction"].lower():
                     session["score"] += 1
-                if n == question["nom"].lower():
+                if nettoyer_nom(n) == nettoyer_nom(question["nom"]):
                     session["score"] += 1
+
             session["current_q"] += 1
             return redirect("/quiz")
 
@@ -107,6 +110,9 @@ def quiz():
 
     # Afficher le template correspondant au niveau
     return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"], mode=mode)
+
+def nettoyer_nom(texte):
+    return re.sub(r"[-'\s]", "", texte.lower())
 
 def niveau_max(niveau):
     return {
