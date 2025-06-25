@@ -9,8 +9,7 @@
 
 <body>
   <div class="quiz-container">
-    <h2 class="quiz-title">Question {{ question["nom"] }}</h2>
-    <p class="question">Combien de versets contient cette sourate ?</p>
+    <h2 class="quiz-title">{{ question["nom"]}} ( {{ question["traduction"] }} ) </h2>
 
     <form method="POST">
       <input type="text" name="reponse" placeholder="Nombre de versets">
