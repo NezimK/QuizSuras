@@ -17,37 +17,54 @@
             {% endif %}
         </h2>
         
-        <form method="POST">
-            <div class="input-group">
-                <label for="versets">💫 Nombre de versets :</label>
-                <input type="text" id="versets" name="versets" placeholder="Entrez le nombre de versets..." autocomplete="off" autofocus>
-            </div>
+        {% if request.form.get("action") != "voir_reponse" %}
+        <!-- Section Question (affichée par défaut) -->
+        <div class="question-section">
+            <form method="POST">
+                <div class="input-group">
+                    <label for="versets">💫 Nombre de versets :</label>
+                    <input type="text" id="versets" name="versets" placeholder="Entrez le nombre de versets..." autocomplete="off" autofocus>
+                </div>
 
-            <div class="input-group">
-                <label for="nom">📜 Nom arabe (phonétique) :</label>
-                <input type="text" id="nom" name="nom" placeholder="Entrez le nom arabe..." autocomplete="off">
-            </div>
+                <div class="input-group">
+                    <label for="nom">📜 Nom arabe (phonétique) :</label>
+                    <input type="text" id="nom" name="nom" placeholder="Entrez le nom arabe..." autocomplete="off">
+                </div>
 
-            <div class="input-group">
-                <label for="traduction">🔤 Traduction française :</label>
-                <input type="text" id="traduction" name="traduction" placeholder="Entrez la traduction française..." autocomplete="off">
-            </div>
+                <div class="input-group">
+                    <label for="traduction">🔤 Traduction française :</label>
+                    <input type="text" id="traduction" name="traduction" placeholder="Entrez la traduction française..." autocomplete="off">
+                </div>
 
-            <div class="actions">
-                <button type="submit" name="action" value="valider">✓ Valider</button>
-                <button type="submit" name="action" value="je_sais_pas">🤔 Passer</button>
-                <button type="submit" name="action" value="voir_reponse">👁️ Révéler</button>
-            </div>
-        </form>
-
-        {% if request.form.get("action") == "voir_reponse" %}
+                <div class="actions">
+                    <button type="submit" name="action" value="valider">✓ Valider</button>
+                    <button type="submit" name="action" value="je_sais_pas">🤔 Passer</button>
+                    <button type="submit" name="action" value="voir_reponse">👁️ Révéler</button>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <!-- Section Réponse (remplace la section question) -->
         <div class="answer-section">
-            <p><strong>📊 Nombre de versets :</strong> {{ question["versets"] }}</p>
-            <p><strong>📜 Nom arabe :</strong> {{ question["nom"] }}</p>
-            <p><strong>🔤 Traduction :</strong> {{ question["traduction"] }}</p>
+            <div class="answer-content">
+                <div class="answer-item">
+                    <div class="answer-label">💫 Nombre de versets</div>
+                    <div class="answer-value">{{ question["versets"] }}</div>
+                </div>
+                
+                <div class="answer-item">
+                    <div class="answer-label">📜 Nom arabe</div>
+                    <div class="answer-value">{{ question["nom"] }}</div>
+                </div>
+                
+                <div class="answer-item">
+                    <div class="answer-label">🔤 Traduction française</div>
+                    <div class="answer-value">{{ question["traduction"] }}</div>
+                </div>
+            </div>
             
             <form method="POST">
-                <div class="actions" style="margin-top: 1.5rem;">
+                <div class="actions">
                     <button type="submit" name="action" value="continuer">➡️ Continuer</button>
                     <button type="submit" name="action" value="recommencer">🔄 Recommencer</button>
                     <div></div> <!-- Espace vide pour garder l'alignement -->
