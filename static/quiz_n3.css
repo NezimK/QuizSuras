@@ -120,6 +120,22 @@ body::after {
     50% { filter: brightness(1.2); }
 }
 
+/* Sections Question et Réponse */
+.question-section, .answer-section {
+    animation: sectionSlideIn 0.8s ease-out;
+}
+
+@keyframes sectionSlideIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
 /* Formulaire */
 form {
     display: flex;
@@ -262,28 +278,56 @@ button[value="recommencer"]:hover {
     box-shadow: 0 15px 35px rgba(239,68,68,0.4), 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Section des réponses */
+/* Section des réponses - Style amélioré */
 .answer-section {
-    background: rgba(0,212,255,0.1);
+    background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(124,58,237,0.1));
     border: 2px solid rgba(0,212,255,0.3);
-    border-radius: 20px;
-    padding: 2rem;
-    margin-top: 2rem;
-    backdrop-filter: blur(15px);
-    animation: answerSlideIn 0.6s ease-in-out;
+    border-radius: 24px;
+    padding: 2.5rem;
+    backdrop-filter: blur(20px);
+    box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
-@keyframes answerSlideIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+.answer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
 }
 
-/* Réponses affichées */
-.answer-section p {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: var(--text-primary);
+.answer-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.answer-item:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.answer-label {
+    font-size: 0.9rem;
     font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.answer-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* Score */
@@ -324,6 +368,14 @@ p {
     button {
         padding: 1rem 1.5rem;
     }
+    
+    .answer-item {
+        padding: 1rem;
+    }
+    
+    .answer-value {
+        font-size: 1.2rem;
+    }
 }
 
 @media (min-width: 1400px) {
@@ -339,4 +391,20 @@ p {
     .actions {
         gap: 2rem;
     }
+}
+
+/* Input groups */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+/* Animation de pulsation pour les inputs actifs */
+input:focus {
+    animation: inputPulse 2s ease-in-out infinite;
+}
+
+@keyframes inputPulse {
+    0%, 100% { box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1); }
+    50% { box-shadow: var(--glow-secondary), inset 0 1px 0 rgba(255,255,255,0.2); }
 }
