@@ -22,25 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gestion de la soumission des formulaires
     forms.forEach(form => {
         form.addEventListener('submit', e => {
-            // Si c'est le bouton "voir_reponse", on empêche la soumission normale
-            if (clickedAction === 'voir_reponse') {
-                e.preventDefault();
-                // Afficher la section réponse si elle existe
-                if (answerSection) {
-                    answerSection.style.display = 'block';
-                    answerSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            } else {
-                // Pour les autres actions, on laisse la soumission normale se faire
-                console.log('Action choisie :', clickedAction);
-                if (clickedAction === 'valider') {
-                    const responses = {};
-                    inputs.forEach(input => {
-                        responses[input.name] = input.value;
-                    });
-                    console.log('Réponses saisies:', responses);
-                }
+            // CHANGEMENT : On ne bloque plus la soumission pour "voir_reponse"
+            // On laisse le serveur gérer l'affichage de la section réponse
+            if (clickedAction === 'valider') {
+                const responses = {};
+                inputs.forEach(input => {
+                    responses[input.name] = input.value;
+                });
+                console.log('Réponses saisies:', responses);
             }
+            console.log('Action choisie :', clickedAction);
         });
     });
 
@@ -133,6 +124,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lancer les animations
     animateElements();
+
+    // Animation smooth pour la section réponse si elle existe déjà
+    if (answerSection) {
+        answerSection.style.opacity = '0';
+        answerSection.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            answerSection.style.transition = 'all 0.6s ease';
+            answerSection.style.opacity = '1';
+            answerSection.style.transform = 'translateY(0)';
+            answerSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
 });
 
 // Création du style CSS pour l'animation ripple
