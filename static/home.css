@@ -1,55 +1,411 @@
+:root {
+    --primary: #00d4ff;
+    --secondary: #7c3aed;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #1a1a2e;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --bg-glass: rgba(255, 255, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: #a0a9c0;
+    --text-muted: #6b7280;
+    --glow-primary: 0 0 20px rgba(0, 212, 255, 0.3);
+    --glow-secondary: 0 0 30px rgba(124, 58, 237, 0.4);
+    --glow-accent: 0 0 25px rgba(245, 158, 11, 0.4);
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
 body.home {
-  background-color: #f4f6f8;
-  font-family: "Segoe UI", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  color: #2c3e50;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
 }
-body.home form {
-  flex-direction: column;
+
+/* Arrière-plan animé */
+body.home::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(0,212,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(124,58,237,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(245,158,11,0.05) 0%, transparent 50%);
+    animation: backgroundShift 20s ease-in-out infinite;
+    z-index: -2;
 }
+
+body.home::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(0,212,255,0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(124,58,237,0.2), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(245,158,11,0.4), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(16,185,129,0.3), transparent);
+    background-repeat: repeat;
+    background-size: 150px 100px;
+    animation: particleFloat 30s linear infinite;
+    z-index: -1;
+}
+
+@keyframes backgroundShift {
+    0%,100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(0.5deg); }
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-20px) translateX(10px); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+/* Container principal */
 body.home .container {
-  background: white;
-  padding: 3rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
-  text-align: center;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1);
+    animation: containerPulse 4s ease-in-out infinite;
+    position: relative;
+    border: 2px solid rgba(255,255,255,0.1);
 }
+
+@keyframes containerPulse {
+    0%,100% { 
+        box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1); 
+    }
+    50% { 
+        box-shadow: var(--glow-secondary), inset 0 1px 0 rgba(255,255,255,0.2); 
+    }
+}
+
+/* Titre principal */
 body.home .container h1 {
-  font-size: 2.2rem;
-  margin-bottom: 2rem;
-  color: #3498db;
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0,212,255,.3);
+    animation: titleGlow 3s ease-in-out infinite;
 }
+
+@keyframes titleGlow {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+/* Formulaire */
 body.home .container form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
+
+/* Sections de sélection */
+.selection-section {
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 2px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    animation: sectionSlideIn 0.8s ease-out;
+}
+
+@keyframes sectionSlideIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+/* Sous-titres des sections */
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Labels des options */
 body.home .container form label {
-  display: flex;
-  align-items: center;
-  font-size: 1.1rem;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 0.8rem;
+    position: relative;
+    overflow: hidden;
 }
-body.home .container form label input[type=radio] {
-  margin-right: 0.7rem;
+
+body.home .container form label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
 }
+
+body.home .container form label:hover::before {
+    left: 100%;
+}
+
+body.home .container form label:hover {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--primary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,212,255,0.2);
+}
+
+/* Inputs radio personnalisés */
+body.home .container form label input[type="radio"] {
+    margin-right: 0.8rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+body.home .container form label input[type="radio"]:checked {
+    border-color: var(--primary);
+    background: rgba(0,212,255,0.2);
+    box-shadow: 0 0 10px rgba(0,212,255,0.5);
+}
+
+body.home .container form label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 5px rgba(0,212,255,0.8);
+}
+
+/* Bouton de soumission */
 body.home .container form button {
-  margin-top: 1.5rem;
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 0.8rem;
-  font-size: 1.1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
+    margin-top: 2rem;
+    padding: 1.2rem 2rem;
+    background: linear-gradient(135deg, var(--primary), #0891b2);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: var(--glow-primary);
+    position: relative;
+    overflow: hidden;
 }
+
+body.home .container form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+body.home .container form button:hover::before {
+    left: 100%;
+}
+
 body.home .container form button:hover {
-  background: #217dbb;
-}/*# sourceMappingURL=home.css.map */
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,212,255,0.4), 0 5px 15px rgba(0,0,0,0.3);
+}
+
+body.home .container form button:active {
+    transform: translateY(-1px);
+}
+
+/* Paragraphe "Mode" */
+body.home .container form p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Effet hover sur le container */
+body.home .container:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body.home .container {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    body.home .container h1 {
+        font-size: 2rem;
+    }
+    
+    body.home .container form label {
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    body.home .container form button {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .selection-section {
+        padding: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body.home .container {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    
+    body.home .container h1 {
+        font-size: 1.8rem;
+    }
+    
+    body.home .container form label {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+    }
+    
+    body.home .container form button {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+    }
+}
+
+/* Animations d'entrée */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation des labels au chargement */
+body.home .container form label {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+body.home .container form label:nth-child(1) { animation-delay: 0.1s; }
+body.home .container form label:nth-child(2) { animation-delay: 0.2s; }
+body.home .container form label:nth-child(3) { animation-delay: 0.3s; }
+body.home .container form label:nth-child(4) { animation-delay: 0.4s; }
+body.home .container form label:nth-child(5) { animation-delay: 0.5s; }
+body.home .container form label:nth-child(6) { animation-delay: 0.6s; }
+body.home .container form label:nth-child(7) { animation-delay: 0.7s; }
+
+/* Animation du bouton */
+body.home .container form button {
+    animation: fadeInUp 0.8s ease-out 0.8s forwards;
+    opacity: 0;
+}
+
+/* Effet de pulsation pour les éléments sélectionnés */
+body.home .container form label:has(input[type="radio"]:checked) {
+    animation: selectedPulse 2s ease-in-out infinite;
+    background: rgba(0,212,255,0.1);
+    border-color: var(--primary);
+    color: var(--text-primary);
+}
+
+@keyframes selectedPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(0,212,255,0.3); }
+    50% { box-shadow: 0 0 20px rgba(0,212,255,0.5); }
+}
+
+/* Ajout d'un gradient subtil sur les bordures */
+.selection-section {
+    position: relative;
+}
+
+.selection-section::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0.3;
+    animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
