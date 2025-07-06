@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Futuriste - Niveau 2</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='quiz_n2.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="main-container">
@@ -14,42 +15,52 @@
             </div>
             <div class="score-badge">🏆 Score: {{ score }}</div>
             
-            <h1 class="quiz-title typing-effect">Sourate {{ question.nom }}</h1>
+            <h1 class="quiz-title typing-effect">
+                {% if mode == "canonique" %}
+                    🌟 Sourate n° {{ question['ordre_canonique'] }}
+                {% else %}
+                    🌟 Sourate n° {{ question['ordre_chronologique'] }}
+                {% endif %}
+            </h1>
             <p class="quiz-subtitle">Niveau 2 - Double défi</p>
             
-            <form class="form-container" method="POST">
-                <!-- Grille avec deux inputs côte à côte -->
-                <div class="dual-input-grid">
-                    <div class="input-group">
-                        <label class="input-label" for="versets">📜 Nombre de versets</label>
-                        <input type="text" id="versets" name="versets" class="futuristic-input" 
-                               placeholder="Ex: 286" autocomplete="off" autofocus>
+            {% if request.form.get("action") != "voir_reponse" %}
+            <!-- Section Question (affichée par défaut) -->
+            <div class="form-container">
+                <form method="POST">
+                    <!-- Grille avec deux inputs côte à côte -->
+                    <div class="dual-input-grid">
+                        <div class="input-group">
+                            <label class="input-label" for="versets">📜 Nombre de versets</label>
+                            <input type="text" id="versets" name="versets" class="futuristic-input" 
+                                   placeholder="Ex: 286" autocomplete="off" autofocus>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label" for="traduction">🌍 Traduction française</label>
+                            <input type="text" id="traduction" name="traduction" class="futuristic-input" 
+                                   placeholder="Ex: La vache" autocomplete="off">
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label class="input-label" for="traduction">🌍 Traduction française</label>
-                        <input type="text" id="traduction" name="traduction" class="futuristic-input" 
-                               placeholder="Ex: La vache" autocomplete="off">
+                    
+                    <div class="actions-grid">
+                        <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">✓ Valider</button>
+                        <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">🤔 Passer</button>
+                        <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">👁️ Révéler</button>
                     </div>
-                </div>
-                
-                <div class="actions-grid">
-                    <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">✓ Valider</button>
-                    <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">🤔 Passer</button>
-                    <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">👁️ Révéler</button>
-                </div>
-            </form>
-
-            {% if request.form.get("action") == "voir_reponse" %}
+                </form>
+            </div>
+            {% else %}
+            <!-- Section Réponse (remplace la section question) -->
             <div class="answer-section">
-                <h3 style="color: var(--primary); margin-bottom: 1rem;">💡 Réponses correctes :</h3>
-                <p style="margin-bottom: 0.5rem;"><strong>Nombre de versets :</strong> {{ question["versets"] }}</p>
-                <p style="margin-bottom: 1.5rem;"><strong>Traduction :</strong> {{ question["traduction"] }}</p>
+                <h3>💡 Réponses correctes :</h3>
+                <p><strong>Nombre de versets :</strong> {{ question["versets"] }}</p>
+                <p><strong>Traduction :</strong> {{ question["traduction"] }}</p>
                 
                 <form method="POST">
                     <div class="actions-grid" style="margin-top: 1.5rem;">
                         <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">➡️ Continuer</button>
                         <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">🔄 Recommencer</button>
-                        <div></div>
+                        <div></div> <!-- Espace vide pour garder l'alignement -->
                     </div>
                 </form>
             </div>
@@ -57,6 +68,6 @@
         </div>
     </div>
     
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='script2.js') }}"></script>
 </body>
 </html>
