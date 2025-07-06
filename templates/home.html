@@ -3,24 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choix du niveau</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 
 <body class="home">
     <div class="container">
         <h1>Choisis ton niveau</h1>
+        
         <form action="/start" method="POST" class="level">
-            <label><input type="radio" name="niveau" value="1" required> Niveau 1 (Nombre de versets)</label><br>
-            <label><input type="radio" name="niveau" value="2"> Niveau 2 (Niveau 1 + Traduction FR)</label><br>
-            <label><input type="radio" name="niveau" value="3"> Niveau 3 (Niveau 2 + Nom arabe phonétique)</label><br>
-            <p>Mode :</p>
-            <label><input type="radio" name="mode" value="canonique" required> Canonique</label><br>
-            <label><input type="radio" name="mode" value ="aleatoire"> Aléatoire</label><br>
-            <label><input type="radio" name="mode" value="chronologique"> Chronologique</label><br>
-            <button type="submit">Commencer</button>
+            <!-- Section Niveau -->
+            <div class="selection-section">
+                <h2 class="section-title">Niveau de difficulté</h2>
+                <label>
+                    <input type="radio" name="niveau" value="1" required> 
+                    <span>Niveau 1 (Nombre de versets)</span>
+                </label>
+                <label>
+                    <input type="radio" name="niveau" value="2"> 
+                    <span>Niveau 2 (Niveau 1 + Traduction FR)</span>
+                </label>
+                <label>
+                    <input type="radio" name="niveau" value="3"> 
+                    <span>Niveau 3 (Niveau 2 + Nom arabe phonétique)</span>
+                </label>
+            </div>
+
+            <!-- Section Mode -->
+            <div class="selection-section">
+                <h2 class="section-title">Mode de jeu</h2>
+                <label>
+                    <input type="radio" name="mode" value="canonique" required> 
+                    <span>Canonique</span>
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="aleatoire"> 
+                    <span>Aléatoire</span>
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="chronologique"> 
+                    <span>Chronologique</span>
+                </label>
+            </div>
+
+            <button type="submit">Commencer le Quiz</button>
         </form>
     </div>
+
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
 </body>
 
 </html>
