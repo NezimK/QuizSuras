@@ -1,15 +1,19 @@
+// Configuration du quiz
+const TOTAL_QUESTIONS = 10; // Nombre total de questions dans le quiz
+let currentQuestion = 1;
+let score = 0;
+
 document.addEventListener('DOMContentLoaded', () => {
     const progressFill = document.querySelector('.progress-fill');
     const input = document.querySelector('.futuristic-input');
     const answerSection = document.querySelector('.answer-section');
-    const btnVoir = document.querySelector('button[value="voir_reponse"]');
+    const scoreElement = document.getElementById('score-value');
     let clickedAction = null;
 
-    input.focus();
+    // Initialiser la barre de progression
+    updateProgressBar();
 
-    setTimeout(() => {
-        progressFill.style.width = '45%';
-    }, 500);
+    input.focus();
 
     document.querySelectorAll('.futuristic-btn').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -22,9 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         if (clickedAction === 'voir_reponse') {
             answerSection.style.display = 'block';
-        } else {
-            // ici tu peux gérer valider / passer
-            console.log('Action choisie :', clickedAction, 'Réponse saisie:', input.value);
+        } else if (clickedAction === 'valider') {
+            // Logique de validation
+            const userAnswer = input.value.trim();
+            if (userAnswer === '7') {
+                score += 10;
+                scoreElement.textContent = score;
+                alert('Correct ! +10 points');
+            } else {
+                alert('Incorrect. La bonne réponse était 7.');
+            }
+            answerSection.style.display = 'block';
+        } else if (clickedAction === 'je_sais_pas') {
+            alert('Question passée.');
+            answerSection.style.display = 'block';
         }
     });
 
@@ -44,9 +59,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// création du style CSS pour l'animation ripple
-const style = document.createElement('style');
-style.textContent = `
-@keyframes ripple { to { transform:scale(4); opacity:0; } }
-`;
-document.head.appendChild(style);
+function updateProgressBar() {
+    const progressFill = document.querySelector('.progress-fill');
+    const progressPercentage = (currentQuestion / TOTAL_QUESTIONS) * 100;
+    progressFill.style.width = `${progressPercentage}%`;
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion <= TOTAL_QUESTIONS) {
+        updateProgressBar();
+        document.querySelector('.answer-section').style.display = 'none';
+        document.querySelector('.futuristic-input').value = '';
+        document.querySelector('.futuristic-input').focus();
+        document.querySelector('.quiz-title').textContent = `Question ${currentQuestion}`;
+    } else {
+        alert(`Quiz terminé ! Score final: ${score}`);
+    }
+}
+
+function restart() {
+    currentQuestion = 1;
+    score = 0;
+    document.getElementById('score-value').textContent = score;
+    updateProgressBar();
+    document.querySelector('.answer-section').style.display = 'none';
+    document.querySelector('.futuristic-input').value = '';
+    document.querySelector('.futuristic-input').focus();
+    document.querySelector('.quiz-title').textContent = 'Al-Fatiha';
+}
