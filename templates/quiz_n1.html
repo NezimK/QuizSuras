@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Futuriste - Niveau 1</title>
+    <title>QuizSuras - Niveau 1</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='quiz_n1.css') }}">
 </head>
 <body>
@@ -12,18 +12,17 @@
             <div class="progress-bar">
                 <div class="progress-fill"></div>
             </div>
-            <div class="score-badge">🏆 Score: {{ score }}</div>
+            <div class="score-badge">🏆 Score : {{ score }}</div>
             <h1 class="quiz-title typing-effect">{{ question["nom"]}} ( {{ question["traduction"] }} ) </h1>
-            <p class="quiz-subtitle">{{ question["traduction"] }}</p>
             <form class="form-container" method="POST">
                 <div class="input-group">
                     <label class="input-label" for="reponse">💫 Nombre de versets</label>
                     <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
                 </div>
                 <div class="actions-grid">
-                    <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">✓ Valider</button>
-                    <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">🤔 Passer</button>
-                    <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">👁️ Révéler</button>
+                    <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">Valider</button>
+                    <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">Passer</button>
+                    <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
                 </div>
             </form>
             {% if request.form.get("action") == "voir_reponse" %}
@@ -31,8 +30,8 @@
             <div class="answer-section" style="display: none;">
                  <form method="POST">
                 <div class="actions-grid" style="margin-top: 1.5rem;">
-                    <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">➡️ Continuer</button>
-                    <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">🔄 Recommencer</button>
+                    <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
+                    <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
                     </form>
                   {% endif %}
                     <div></div>
