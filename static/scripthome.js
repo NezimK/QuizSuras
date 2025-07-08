@@ -246,21 +246,59 @@ document.addEventListener('DOMContentLoaded', () => {
             75% { transform: translateX(5px); }
         }
         
+        /* Styles pour les éléments sélectionnés - TRÈS VISIBLES */
         .selected {
-            background: rgba(0,212,255,0.15) !important;
-            border-color: var(--primary) !important;
-            color: var(--text-primary) !important;
-            box-shadow: 0 0 15px rgba(0,212,255,0.3) !important;
+            background: linear-gradient(135deg, 
+                rgba(0, 212, 255, 0.3) 0%, 
+                rgba(124, 58, 237, 0.2) 100%) !important;
+            border: 2px solid #00d4ff !important;
+            box-shadow: 
+                0 0 30px rgba(0, 212, 255, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.15) !important;
+            transform: scale(1.05) !important;
+        }
+        
+        .selected span {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 1) !important;
+        }
+        
+        /* Animation pour les éléments sélectionnés */
+        .selected::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 2s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         button:disabled {
             cursor: not-allowed !important;
             opacity: 0.5 !important;
+            background: linear-gradient(135deg, #666666, #444444) !important;
         }
         
         button:disabled:hover {
             transform: none !important;
             box-shadow: none !important;
+        }
+        
+        /* Assurer la compatibilité avec :has() */
+        @supports not selector(:has(*)) {
+            input[type="radio"]:checked ~ * {
+                color: #ffffff !important;
+                font-weight: 700 !important;
+            }
         }
     `;
     document.head.appendChild(style);
