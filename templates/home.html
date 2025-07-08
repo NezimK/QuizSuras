@@ -16,38 +16,40 @@
         <h1>Choisis ton niveau</h1>
         
         <form action="/start" method="POST" class="level">
-            <!-- Section Niveau -->
-            <div class="selection-section">
-                <h2 class="section-title">Niveau de difficulté</h2>
-                <label>
-                    <input type="radio" name="niveau" value="1" required> 
-                    <span>Niveau 1 (Nombre de versets)</span>
-                </label>
-                <label>
-                    <input type="radio" name="niveau" value="2"> 
-                    <span>Niveau 2 (Niveau 1 + Traduction FR)</span>
-                </label>
-                <label>
-                    <input type="radio" name="niveau" value="3"> 
-                    <span>Niveau 3 (Niveau 2 + Nom arabe phonétique)</span>
-                </label>
-            </div>
+            <div class="selections-container">
+                <!-- Section Niveau -->
+                <div class="selection-section">
+                    <h2 class="section-title">Niveau de difficulté</h2>
+                    <label>
+                        <input type="radio" name="niveau" value="1" required> 
+                        <span>Niveau 1 (Nombre de versets)</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="niveau" value="2"> 
+                        <span>Niveau 2 (Niveau 1 + Traduction FR)</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="niveau" value="3"> 
+                        <span>Niveau 3 (Niveau 2 + Nom arabe phonétique)</span>
+                    </label>
+                </div>
 
-            <!-- Section Mode -->
-            <div class="selection-section">
-                <h2 class="section-title">Mode de jeu</h2>
-                <label>
-                    <input type="radio" name="mode" value="canonique" required> 
-                    <span>Canonique</span>
-                </label>
-                <label>
-                    <input type="radio" name="mode" value="aleatoire"> 
-                    <span>Aléatoire</span>
-                </label>
-                <label>
-                    <input type="radio" name="mode" value="chronologique"> 
-                    <span>Chronologique</span>
-                </label>
+                <!-- Section Mode -->
+                <div class="selection-section">
+                    <h2 class="section-title">Mode de jeu</h2>
+                    <label>
+                        <input type="radio" name="mode" value="canonique" required> 
+                        <span>Canonique</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="mode" value="aleatoire"> 
+                        <span>Aléatoire</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="mode" value="chronologique"> 
+                        <span>Chronologique</span>
+                    </label>
+                </div>
             </div>
 
             <button type="submit">Commencer le Quiz</button>
