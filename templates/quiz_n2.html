@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Futuriste - Niveau 2</title>
+    <title>QuizSuras - Niveau 2</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='quiz_n2.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
@@ -22,7 +22,6 @@
                     🌟 Sourate n° {{ question['ordre_chronologique'] }}
                 {% endif %}
             </h1>
-            <p class="quiz-subtitle">Niveau 2 - Double défi</p>
             
             {% if request.form.get("action") != "voir_reponse" %}
             <!-- Section Question (affichée par défaut) -->
@@ -32,20 +31,18 @@
                     <div class="dual-input-grid">
                         <div class="input-group">
                             <label class="input-label" for="versets">📜 Nombre de versets</label>
-                            <input type="text" id="versets" name="versets" class="futuristic-input" 
-                                   placeholder="Ex: 286" autocomplete="off" autofocus>
+                    <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
                         </div>
                         <div class="input-group">
                             <label class="input-label" for="traduction">🌍 Traduction française</label>
-                            <input type="text" id="traduction" name="traduction" class="futuristic-input" 
-                                   placeholder="Ex: La vache" autocomplete="off">
+                    <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
                         </div>
                     </div>
                     
                     <div class="actions-grid">
-                        <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">✓ Valider</button>
-                        <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">🤔 Passer</button>
-                        <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">👁️ Révéler</button>
+                        <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">Valider</button>
+                        <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">Passer</button>
+                        <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
                     </div>
                 </form>
             </div>
@@ -58,8 +55,8 @@
                 
                 <form method="POST">
                     <div class="actions-grid" style="margin-top: 1.5rem;">
-                        <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">➡️ Continuer</button>
-                        <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">🔄 Recommencer</button>
+                        <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
+                        <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
                         <div></div> <!-- Espace vide pour garder l'alignement -->
                     </div>
                 </form>
