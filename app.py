@@ -119,10 +119,10 @@ def quiz():
 
 
     # Si action == "voir_reponse", ne rien faire (rester sur la même question)
-
+    total_questions = len(sourates)
 
     # Afficher le template correspondant au niveau
-    return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"], mode=mode)
+    return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"], mode=mode, current_q=current_q, total_questions=total_questions)
 
 def nettoyer_nom(texte):
     return re.sub(r"[-'\s]", "", texte.lower())
