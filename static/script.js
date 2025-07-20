@@ -5,15 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const answerSection = document.querySelector('.answer-section');
     
     // Gestion de la barre de progression
-    const progressBar = document.getElementById('progress-fill');
+      const progressBar = document.getElementById('progress-fill');
     if (progressBar) {
         const currentQ = parseInt(progressBar.dataset.current);
         const totalQuestions = parseInt(progressBar.dataset.total);
         const progressPercentage = (currentQ / totalQuestions) * 100;
         
-        setTimeout(() => {
+        // Vérifier si on est dans la section réponse (action = voir_reponse)
+        const isInAnswerSection = document.querySelector('.answer-section') !== null;
+        
+        if (isInAnswerSection) {
+            // On est dans la section réponse - pas d'animation
             progressBar.style.width = progressPercentage + '%';
-        }, 500);
+            progressBar.style.transition = 'width 0.3s ease';
+        } else {
+            // Nouvelle question - progression depuis la valeur précédente
+            const previousPercentage = ((currentQ - 1) / totalQuestions) * 100;
+            progressBar.style.width = previousPercentage + '%';
+            progressBar.style.transition = 'width 0.8s ease';
+            setTimeout(() => {
+                progressBar.style.width = progressPercentage + '%';
+            }, 300);
+        }
+    
     }
 
     // Focus automatique sur l'input

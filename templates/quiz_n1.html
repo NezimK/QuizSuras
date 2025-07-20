@@ -21,30 +21,55 @@
             <!-- Score badge centré -->
             <div class="score-badge">🏆 Score: {{ score }}</div>
             
-            <h1 class="quiz-title typing-effect">{{ question["nom"]}} ( {{ question["traduction"] }} )</h1>
+            <h1 class="quiz-title">
+                {% if mode == "canonique" %}
+                    🌟 {{ question["nom"]}} ({{ question["traduction"] }})
+                {% else %}
+                    🌟 {{ question["nom"]}} ({{ question["traduction"] }})
+                {% endif %}
+            </h1>
             
             {% if request.form.get("action") != "voir_reponse" %}
-            <!-- Section Question -->
-            <form class="form-container" method="POST">
-                <div class="input-group">
-                    <label class="input-label" for="reponse">💫 Nombre de versets</label>
-                    <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
-                </div>
-                <div class="actions-grid">
-                    <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">Valider</button>
-                    <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">Passer</button>
-                    <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
-                </div>
-            </form>
-            {% else %}
-            <!-- Section Réponse -->
-            <div class="answer-section">
-                <p><strong>Réponse :</strong> {{ question["versets"] }}</p>
+            <!-- Section Question (affichée par défaut) -->
+            <div class="form-container">
                 <form method="POST">
-                    <div class="actions-grid" style="margin-top: 1.5rem;">
+                    <div class="input-group">
+                        <label class="input-label" for="reponse">💫 Nombre de versets</label>
+                        <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
+                    </div>
+                    
+                    <div class="actions-grid">
+                        <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">Valider</button>
+                        <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">Passer</button>
+                        <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <!-- Section Réponse (remplace la section question) -->
+            <div class="answer-section">
+                <div class="answer-content">
+                    <div class="answer-item">
+                        <div class="answer-label">💫 Nombre de versets</div>
+                        <div class="answer-value">{{ question["versets"] }}</div>
+                    </div>
+                </div>
+
+                <!-- Section anecdote -->
+                <div class="anecdote-section">
+                    <div class="anecdote-title">
+                        <span>💡</span>
+                        <span>Le saviez-vous ?</span>
+                    </div>
+                    <div class="anecdote-text">
+                        {{ question["anecdote"] }}
+                    </div>
+                </div>
+                
+                <form method="POST">
+                    <div class="actions-grid">
                         <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
                         <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
-                        <div></div>
                     </div>
                 </form>
             </div>
