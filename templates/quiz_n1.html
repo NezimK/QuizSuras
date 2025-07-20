@@ -3,17 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuizSuras - Niveau 1</title>
+    <title>QuizSuras - Niveau 1</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='quiz_n1.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="main-container">
         <div class="quiz-container">
+            <!-- Barre de progression -->
             <div class="progress-bar">
-                <div class="progress-fill"></div>
+                <div class="progress-fill" 
+                     id="progress-fill" 
+                     data-current="{{ current_q }}" 
+                     data-total="{{ total_questions }}"></div>
             </div>
-            <div class="score-badge">🏆 Score : {{ score }}</div>
-            <h1 class="quiz-title typing-effect">{{ question["nom"]}} ( {{ question["traduction"] }} ) </h1>
+            
+            <!-- Score badge centré -->
+            <div class="score-badge">🏆 Score: {{ score }}</div>
+            
+            <h1 class="quiz-title typing-effect">{{ question["nom"]}} ( {{ question["traduction"] }} )</h1>
+            
+            {% if request.form.get("action") != "voir_reponse" %}
+            <!-- Section Question -->
             <form class="form-container" method="POST">
                 <div class="input-group">
                     <label class="input-label" for="reponse">💫 Nombre de versets</label>
@@ -25,20 +36,22 @@
                     <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
                 </div>
             </form>
-            {% if request.form.get("action") == "voir_reponse" %}
-            <p>Réponse : {{ question["versets"] }}</p>
-            <div class="answer-section" style="display: none;">
-                 <form method="POST">
-                <div class="actions-grid" style="margin-top: 1.5rem;">
-                    <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
-                    <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
-                    </form>
-                  {% endif %}
-                    <div></div>
-                </div>
+            {% else %}
+            <!-- Section Réponse -->
+            <div class="answer-section">
+                <p><strong>Réponse :</strong> {{ question["versets"] }}</p>
+                <form method="POST">
+                    <div class="actions-grid" style="margin-top: 1.5rem;">
+                        <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
+                        <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
+                        <div></div>
+                    </div>
+                </form>
             </div>
+            {% endif %}
         </div>
     </div>
-    <script src="script.js"></script>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
