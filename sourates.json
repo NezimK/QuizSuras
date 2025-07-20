@@ -4,20 +4,23 @@
     "versets": 7,
     "traduction": "L'ouverture",
     "ordre_canonique": 1,
-    "ordre_chronologique": 5
+    "ordre_chronologique": 5,
+    "anecdote": "Al-Fatiha est appelée \"la mère du Livre\" et \"les sept versets répétés\". Elle est récitée dans chaque unité de prière (rak'a), ce qui en fait la sourate la plus récitée du Coran. Ses sept versets condensent l'essence même de l'Islam : la louange à Allah, la demande de guidance, et la distinction entre le droit chemin et l'égarement."
   },
   {
     "nom": "Al-Baqara",
     "versets": 286,
     "traduction": "La vache",
     "ordre_canonique": 2,
-    "ordre_chronologique": 87
+    "ordre_chronologique": 87,
+    "anecdote": "Al-Baqara est la plus longue sourate du Coran avec 286 versets. Elle tire son nom de l'histoire de la vache mentionnée dans les versets 67-73. Cette sourate contient le verset du Trône (Ayat al-Kursi), considéré comme l'un des plus puissants du Coran, ainsi que les derniers versets révélés."
   },
   {
     "nom": "Al-'Alaq",
     "versets": 19,
     "traduction": "L'adhérence",
     "ordre_canonique": 96,
-    "ordre_chronologique": 1
+    "ordre_chronologique": 1,
+    "anecdote": "Al-'Alaq contient les tout premiers versets révélés au Prophète Muhammad (ﷺ) dans la grotte de Hira. Le mot \"Iqra\" (lis) fut le premier mot du Coran révélé, soulignant l'importance de la connaissance et de l'apprentissage en Islam. Cette sourate marque le début de la révélation coranique."
   }
 ]
