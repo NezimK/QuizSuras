@@ -10,12 +10,18 @@
 <body>
     <div class="main-container">
         <div class="quiz-container">
+            <!-- Barre de progression -->
             <div class="progress-bar">
-                <div class="progress-fill"></div>
+                <div class="progress-fill" 
+                     id="progress-fill" 
+                     data-current="{{ current_q }}" 
+                     data-total="{{ total_questions }}"></div>
             </div>
+            
+            <!-- Score badge centré -->
             <div class="score-badge">🏆 Score: {{ score }}</div>
             
-            <h1 class="quiz-title typing-effect">
+            <h1 class="quiz-title">
                 {% if mode == "canonique" %}
                     🌟 Sourate n° {{ question['ordre_canonique'] }}
                 {% else %}
@@ -31,11 +37,11 @@
                     <div class="dual-input-grid">
                         <div class="input-group">
                             <label class="input-label" for="versets">📜 Nombre de versets</label>
-                    <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
+                            <input type="text" id="versets" name="versets" class="futuristic-input" placeholder="Entrez le nombre..." autocomplete="off" autofocus>
                         </div>
                         <div class="input-group">
                             <label class="input-label" for="traduction">🌍 Traduction française</label>
-                    <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
+                            <input type="text" id="traduction" name="traduction" class="futuristic-input" placeholder="Entrez la traduction..." autocomplete="off">
                         </div>
                     </div>
                     
@@ -49,15 +55,33 @@
             {% else %}
             <!-- Section Réponse (remplace la section question) -->
             <div class="answer-section">
-                <h3>💡 Réponses correctes :</h3>
-                <p><strong>Nombre de versets :</strong> {{ question["versets"] }}</p>
-                <p><strong>Traduction :</strong> {{ question["traduction"] }}</p>
+                <div class="answer-content">
+                    <div class="answer-item">
+                        <div class="answer-label">📜 Nombre de versets</div>
+                        <div class="answer-value">{{ question["versets"] }}</div>
+                    </div>
+                    
+                    <div class="answer-item">
+                        <div class="answer-label">🌍 Traduction française</div>
+                        <div class="answer-value">{{ question["traduction"] }}</div>
+                    </div>
+                </div>
+
+                <!-- Section anecdote -->
+                <div class="anecdote-section">
+                    <div class="anecdote-title">
+                        <span>💡</span>
+                        <span>Le saviez-vous ?</span>
+                    </div>
+                    <div class="anecdote-text">
+                        {{ question["anecdote"] }}
+                    </div>
+                </div>
                 
                 <form method="POST">
-                    <div class="actions-grid" style="margin-top: 1.5rem;">
+                    <div class="actions-grid">
                         <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
                         <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
-                        <div></div> <!-- Espace vide pour garder l'alignement -->
                     </div>
                 </form>
             </div>

@@ -4,55 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputTraduction = document.getElementById('traduction');
     const allInputs = document.querySelectorAll('input[type="text"]');
     const buttons = document.querySelectorAll('button');
-    const forms = document.querySelectorAll('form');
     const answerSection = document.querySelector('.answer-section');
-    let clickedAction = null;
-
+    
+    const progressBar = document.getElementById('progress-fill');
+    if (progressBar) {
+        const currentQ = parseInt(progressBar.dataset.current);
+        const totalQuestions = parseInt(progressBar.dataset.total);
+        const progressPercentage = (currentQ / totalQuestions) * 100;
+        
+        setTimeout(() => {
+            progressBar.style.width = progressPercentage + '%';
+        }, 500);
+    }
     // Focus automatique sur le premier input (versets)
     if (inputVersets) {
         inputVersets.focus();
     }
 
-    // Gestion des effets sur les boutons
-    buttons.forEach(btn => {
-        btn.addEventListener('click', e => {
-            clickedAction = e.target.value;
-            createClickEffect(e);
-            
-            // Effet de vibration pour les boutons importants
-            if (clickedAction === 'valider') {
-                btn.style.animation = 'buttonSuccess 0.5s ease';
-            } else if (clickedAction === 'voir_reponse') {
-                btn.style.animation = 'buttonReveal 0.5s ease';
-            }
-        });
-    });
-
-    // Gestion de la soumission des formulaires
-    forms.forEach(form => {
-        form.addEventListener('submit', e => {
-            if (clickedAction === 'valider') {
-                // Validation des inputs avant soumission
-                const versetsValue = inputVersets ? inputVersets.value.trim() : '';
-                const traductionValue = inputTraduction ? inputTraduction.value.trim() : '';
-                
-                console.log('Validation niveau 2:', {
-                    versets: versetsValue,
-                    traduction: traductionValue,
-                    versetsValid: versetsValue !== '' && !isNaN(versetsValue),
-                    traductionValid: traductionValue !== ''
-                });
-                
-                // Affichage visuel des champs valides/invalides
-                validateInput(inputVersets, versetsValue !== '' && !isNaN(versetsValue));
-                validateInput(inputTraduction, traductionValue !== '');
-            }
-            
-            console.log('Action choisie :', clickedAction);
-        });
-    });
-
-    // Navigation entre les champs avec Enter ou Tab
+    // Navigation entre les champs avec Enter
     if (inputVersets && inputTraduction) {
         inputVersets.addEventListener('keydown', e => {
             if (e.key === 'Enter') {
@@ -82,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Changement de couleur en temps réel
             if (value === '') {
                 e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                e.target.style.boxShadow = 'none';
             } else if (isValid) {
                 e.target.style.borderColor = 'var(--success)';
                 e.target.style.boxShadow = '0 0 15px rgba(16,185,129,0.3)';
@@ -100,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Changement de couleur en temps réel
             if (value === '') {
                 e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                e.target.style.boxShadow = 'none';
             } else if (isValid) {
                 e.target.style.borderColor = 'var(--success)';
                 e.target.style.boxShadow = '0 0 15px rgba(16,185,129,0.3)';
@@ -135,29 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Fonction pour valider visuellement un input
-    function validateInput(input, isValid) {
-        if (!input) return;
-        
-        input.style.transition = 'all 0.3s ease';
-        if (isValid) {
-            input.style.borderColor = 'var(--success)';
-            input.style.boxShadow = '0 0 20px rgba(16,185,129,0.4)';
-            input.style.transform = 'scale(1.02)';
-        } else {
-            input.style.borderColor = 'var(--danger)';
-            input.style.boxShadow = '0 0 20px rgba(239,68,68,0.4)';
-            input.style.transform = 'scale(1.02)';
-            // Animation de secousse pour l'erreur
-            input.style.animation = 'inputShake 0.5s ease';
-        }
-        
-        // Retour à la normale après un délai
-        setTimeout(() => {
-            input.style.transform = 'scale(1)';
-            input.style.animation = 'none';
-        }, 500);
-    }
+    // Gestion des effets sur les boutons
+    buttons.forEach(btn => {
+        btn.addEventListener('click', e => {
+            createClickEffect(e);
+        });
+    });
 
     // Fonction pour créer l'effet de clic (ripple effect)
     function createClickEffect(e) {
@@ -186,94 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => ripple.remove(), 600);
     }
 
-    // Animations d'entrée des éléments
-    const animateElements = () => {
-        const title = document.querySelector('.quiz-title');
-        const subtitle = document.querySelector('.quiz-subtitle');
-        const inputGroups = document.querySelectorAll('.input-group');
-        const actionsGrid = document.querySelector('.actions-grid');
-
-        // Animation du titre avec effet de frappe
-        if (title) {
-            title.style.opacity = '0';
-            title.style.transform = 'translateY(-30px)';
-            setTimeout(() => {
-                title.style.transition = 'all 0.8s ease';
-                title.style.opacity = '1';
-                title.style.transform = 'translateY(0)';
-            }, 100);
-        }
-
-        // Animation du sous-titre
-        if (subtitle) {
-            subtitle.style.opacity = '0';
-            subtitle.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                subtitle.style.transition = 'all 0.6s ease';
-                subtitle.style.opacity = '1';
-                subtitle.style.transform = 'translateY(0)';
-            }, 300);
-        }
-
-        // Animation des groupes d'inputs (effet de gauche à droite)
-        inputGroups.forEach((group, index) => {
-            group.style.opacity = '0';
-            group.style.transform = 'translateX(-50px)';
-            setTimeout(() => {
-                group.style.transition = 'all 0.7s ease';
-                group.style.opacity = '1';
-                group.style.transform = 'translateX(0)';
-            }, 500 + index * 200);
-        });
-
-        // Animation des boutons
-        if (actionsGrid) {
-            actionsGrid.style.opacity = '0';
-            actionsGrid.style.transform = 'translateY(30px)';
-            setTimeout(() => {
-                actionsGrid.style.transition = 'all 0.8s ease';
-                actionsGrid.style.opacity = '1';
-                actionsGrid.style.transform = 'translateY(0)';
-            }, 900);
-        }
-    };
-
-    // Animation de la barre de progression (simulation)
-    const animateProgressBar = () => {
-        const progressFill = document.querySelector('.progress-fill');
-        if (progressFill) {
-            // Simulation d'une progression basée sur le score ou l'avancement
-            const randomProgress = Math.random() * 70 + 10; // Entre 10% et 80%
-            setTimeout(() => {
-                progressFill.style.width = `${randomProgress}%`;
-                progressFill.style.transition = 'width 2s ease';
-            }, 1000);
-        }
-    };
-
-    // Lancer toutes les animations
-    animateElements();
-    animateProgressBar();
-
-    // Animation smooth pour la section réponse si elle existe
-    if (answerSection) {
-        answerSection.style.opacity = '0';
-        answerSection.style.transform = 'translateY(30px) scale(0.95)';
-        setTimeout(() => {
-            answerSection.style.transition = 'all 0.8s ease';
-            answerSection.style.opacity = '1';
-            answerSection.style.transform = 'translateY(0) scale(1)';
-            
-            // Scroll vers la section réponse
-            setTimeout(() => {
-                answerSection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-            }, 400);
-        }, 200);
-    }
-
     // Gestion des raccourcis clavier
     document.addEventListener('keydown', (e) => {
         // Ctrl + Enter pour valider rapidement
@@ -294,28 +160,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Sauvegarde automatique des réponses dans le localStorage (optionnel)
-    const saveResponses = () => {
-        const responses = {
-            versets: inputVersets ? inputVersets.value : '',
-            traduction: inputTraduction ? inputTraduction.value : '',
-            timestamp: Date.now()
-        };
-        
-        try {
-            localStorage.setItem('quiz_level2_temp', JSON.stringify(responses));
-        } catch (e) {
-            console.log('Sauvegarde locale non disponible');
-        }
-    };
-
-    // Sauvegarde automatique à chaque saisie
-    allInputs.forEach(input => {
-        input.addEventListener('input', saveResponses);
-    });
+    // Animation smooth pour la section réponse si elle existe déjà
+    if (answerSection) {
+        // Scroll vers la section réponse pour s'assurer qu'elle est visible
+        setTimeout(() => {
+            answerSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }, 200);
+    }
 });
 
-// Styles CSS supplémentaires pour les nouvelles animations
+// Styles CSS pour les animations
 const additionalStyles = document.createElement('style');
 additionalStyles.textContent = `
     /* Animation ripple */
@@ -324,42 +181,6 @@ additionalStyles.textContent = `
             transform: scale(4); 
             opacity: 0; 
         } 
-    }
-    
-    /* Animation de secousse pour les erreurs */
-    @keyframes inputShake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-    }
-    
-    /* Animations des boutons */
-    @keyframes buttonSuccess {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); background: var(--success); }
-        100% { transform: scale(1); }
-    }
-    
-    @keyframes buttonReveal {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); background: var(--warning); }
-        100% { transform: scale(1); }
-    }
-    
-    /* Animation de pulsation pour les inputs actifs */
-    @keyframes inputPulse {
-        0%, 100% { 
-            box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1); 
-        }
-        50% { 
-            box-shadow: var(--glow-secondary), inset 0 1px 0 rgba(255,255,255,0.2); 
-        }
-    }
-    
-    /* Effet de survol amélioré pour les inputs */
-    .futuristic-input:hover {
-        border-color: rgba(255,255,255,0.3);
-        transform: translateY(-1px);
     }
     
     /* Transition smooth pour tous les éléments */
