@@ -8,72 +8,94 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="div-container">
-        <h2 class="quiz-title">
-            {% if mode == "canonique" %}
-                🌟 Sourate n° {{ question['ordre_canonique'] }}
-            {% else %}
-                🌟 Sourate n° {{ question['ordre_chronologique'] }}
-            {% endif %}
-        </h2>
-        
-        {% if request.form.get("action") != "voir_reponse" %}
-        <!-- Section Question (affichée par défaut) -->
-        <div class="question-section">
-            <form method="POST">
-                <div class="input-group">
-                    <label for="versets">💫 Nombre de versets :</label>
-                    <input type="text" id="versets" name="versets" placeholder="Entrez le nombre de versets..." autocomplete="off" autofocus>
-                </div>
-
-                <div class="input-group">
-                    <label for="nom">📜 Nom arabe (phonétique) :</label>
-                    <input type="text" id="nom" name="nom" placeholder="Entrez le nom arabe..." autocomplete="off">
-                </div>
-
-                <div class="input-group">
-                    <label for="traduction">🔤 Traduction française :</label>
-                    <input type="text" id="traduction" name="traduction" placeholder="Entrez la traduction française..." autocomplete="off">
-                </div>
-
-                <div class="actions">
-                    <button type="submit" name="action" value="valider">Valider</button>
-                    <button type="submit" name="action" value="je_sais_pas">Passer</button>
-                    <button type="submit" name="action" value="voir_reponse">Révéler</button>
-                </div>
-            </form>
-        </div>
-        {% else %}
-        <!-- Section Réponse (remplace la section question) -->
-        <div class="answer-section">
-            <div class="answer-content">
-                <div class="answer-item">
-                    <div class="answer-label">💫 Nombre de versets</div>
-                    <div class="answer-value">{{ question["versets"] }}</div>
-                </div>
-                
-                <div class="answer-item">
-                    <div class="answer-label">📜 Nom arabe</div>
-                    <div class="answer-value">{{ question["nom"] }}</div>
-                </div>
-                
-                <div class="answer-item">
-                    <div class="answer-label">🔤 Traduction française</div>
-                    <div class="answer-value">{{ question["traduction"] }}</div>
-                </div>
+    <div class="main-container">
+        <div class="quiz-container">
+            <!-- Barre de progression -->
+            <div class="progress-bar">
+                <div class="progress-fill" 
+                     id="progress-fill" 
+                     data-current="{{ current_q }}" 
+                     data-total="{{ total_questions }}"></div>
             </div>
             
-            <form method="POST">
-                <div class="actions">
-                    <button type="submit" name="action" value="continuer">Contizuer</button>
-                    <button type="submit" name="action" value="recommencer">Recommencer</button>
-                    <div></div> <!-- Espace vide pour garder l'alignement -->
+            <!-- Score badge centré -->
+            <div class="score-badge">🏆 Score: {{ score }}</div>
+            
+            <h1 class="quiz-title">
+                {% if mode == "canonique" %}
+                    🌟 Sourate n° {{ question['ordre_canonique'] }}
+                {% else %}
+                    🌟 Sourate n° {{ question['ordre_chronologique'] }}
+                {% endif %}
+            </h1>
+            
+            {% if request.form.get("action") != "voir_reponse" %}
+            <!-- Section Question (affichée par défaut) -->
+            <div class="form-container">
+                <form method="POST">
+                    <!-- Grille avec trois inputs -->
+                    <div class="triple-input-grid">
+                        <div class="input-group">
+                            <label class="input-label" for="versets">💫 Nombre de versets</label>
+                            <input type="text" id="versets" name="versets" class="futuristic-input" placeholder="Entrez le nombre..." autocomplete="off" autofocus>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label" for="nom">📜 Nom arabe (phonétique)</label>
+                            <input type="text" id="nom" name="nom" class="futuristic-input" placeholder="Entrez le nom arabe..." autocomplete="off">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label" for="traduction">🌍 Traduction française</label>
+                            <input type="text" id="traduction" name="traduction" class="futuristic-input" placeholder="Entrez la traduction..." autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="actions-grid">
+                        <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">Valider</button>
+                        <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">Passer</button>
+                        <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <!-- Section Réponse (remplace la section question) -->
+            <div class="answer-section">
+                <div class="answer-content">
+                    <div class="answer-item">
+                        <div class="answer-label">💫 Nombre de versets</div>
+                        <div class="answer-value">{{ question["versets"] }}</div>
+                    </div>
+                    
+                    <div class="answer-item">
+                        <div class="answer-label">📜 Nom arabe</div>
+                        <div class="answer-value">{{ question["nom"] }}</div>
+                    </div>
+                    
+                    <div class="answer-item">
+                        <div class="answer-label">🌍 Traduction française</div>
+                        <div class="answer-value">{{ question["traduction"] }}</div>
+                    </div>
                 </div>
-            </form>
-        </div>
-        {% endif %}
 
-        <p>🏆 Score actuel : {{ score }}</p>
+                <!-- Section anecdote -->
+                <div class="anecdote-section">
+                    <div class="anecdote-title">
+                        <span>💡</span>
+                        <span>Le saviez-vous ?</span>
+                    </div>
+                    <div class="anecdote-text">
+                        {{ question["anecdote"] }}
+                    </div>
+                </div>
+                
+                <form method="POST">
+                    <div class="actions-grid">
+                        <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
+                        <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
     </div>
     
     <script src="{{ url_for('static', filename='script3.js') }}"></script>
