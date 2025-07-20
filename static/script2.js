@@ -12,10 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalQuestions = parseInt(progressBar.dataset.total);
         const progressPercentage = (currentQ / totalQuestions) * 100;
         
-        setTimeout(() => {
+        // Vérifier si on affiche la section réponse
+        const isInAnswerSection = document.querySelector('.answer-section') !== null;
+        
+        if (isInAnswerSection) {
+            // Section réponse - maintenir la progression
             progressBar.style.width = progressPercentage + '%';
-        }, 500);
+            progressBar.style.transition = 'width 0.3s ease';
+        } else {
+            // Nouvelle question - progression depuis la valeur précédente
+            const previousPercentage = ((currentQ - 1) / totalQuestions) * 100;
+            progressBar.style.width = previousPercentage + '%';
+            progressBar.style.transition = 'width 0.8s ease';
+            setTimeout(() => {
+                progressBar.style.width = progressPercentage + '%';
+            }, 300);
+        }
     }
+    
     // Focus automatique sur le premier input (versets)
     if (inputVersets) {
         inputVersets.focus();
