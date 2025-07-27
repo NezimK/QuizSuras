@@ -35,8 +35,7 @@
                 {% endif %}
             </h1>
             
-            {% if request.form.get("action") != "voir_reponse" %}
-            <!-- Section Question (affichée par défaut) -->
+{% if request.form.get("action") != "voir_reponse" and not session.get("just_validated") %}            <!-- Section Question (affichée par défaut) -->
             <div class="form-container">
                 <form method="POST">
                     <div class="input-group">

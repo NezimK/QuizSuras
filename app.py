@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import json
 import re
+import random
 
 app = Flask(__name__)
-app.secret_key = "votre_clé_secrète"  # Obligatoire pour utiliser session
+app.secret_key = "votre_clé_secrète_sécurisée_2024"  # À changer en production
 
 @app.route('/')
 def home():
@@ -26,25 +27,23 @@ def start_quiz():
     session["mode"] = mode
     session["score"] = 0
     session["current_q"] = 0
-    session['ordre'] = mode
     return redirect("/quiz")
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
     niveau = request.args.get("niveau") or session.get("niveau")
 
-    # Si aucun niveau n’est sélectionné, rediriger vers la page d’accueil
+    # Si aucun niveau n'est sélectionné, rediriger vers la page d'accueil
     if not niveau:
         return redirect(url_for("home"))
 
-    # Enregistre le niveau dans la session s’il est nouveau
+    # Enregistre le niveau dans la session s'il est nouveau
     if "niveau" not in session:
         session["niveau"] = niveau
         session["score"] = 0
         session["current_q"] = 0
         
     mode = session.get("mode", "canonique")
-    ordre = session.get("ordre", "normal")
 
     # Charger les données
     if "questions" not in session:
@@ -53,26 +52,25 @@ def quiz():
 
         if mode == "canonique":
             sourates.sort(key=lambda s: s["ordre_canonique"])
-        else:
+        elif mode == "chronologique":
             sourates.sort(key=lambda s: s["ordre_chronologique"])
-
-        if ordre == "aleatoire":
-            import random
+        elif mode == "aleatoire":
             random.shuffle(sourates)
 
-    # Stocker les données traitées dans la session
+        # Stocker les données traitées dans la session
         session["questions"] = sourates
 
     # Toujours charger les questions depuis la session
     sourates = session["questions"]
-
     current_q = session["current_q"]
 
     # Fin du quiz
     if current_q >= len(sourates):
         score = session["score"]
+        total = len(sourates) * niveau_max(niveau)
+        # Nettoyer la session sauf le score et total pour la page de résultat
         session.clear()
-        return f"<h2>Quiz terminé ! Score final : {score}/{len(sourates) * niveau_max(niveau)}</h2><a href='/'>Recommencer</a>"
+        return render_template("resultat.html", score=score, total=total)
 
     question = sourates[current_q]
 
@@ -104,7 +102,7 @@ def quiz():
                     session["score"] += 1
 
             session["current_q"] += 1
-            return redirect("/quiz")
+            return redirect(url_for("quiz"))
 
         elif action == "je_sais_pas":
             session["current_q"] += 1
@@ -116,7 +114,6 @@ def quiz():
 
         elif action == "recommencer":
             return redirect(url_for("reset"))
-
 
     # Si action == "voir_reponse", ne rien faire (rester sur la même question)
     total_questions = len(sourates)
