@@ -21,6 +21,12 @@
             <!-- Score badge centré -->
             <div class="score-badge">🏆 Score: {{ score }}</div>
             
+            <!-- Bouton reset en haut à droite -->
+            <a href="/reset" class="reset-btn" title="Retour à l'accueil">
+                <span class="reset-icon">⏮</span>
+                <span class="reset-text">Accueil</span>
+            </a>
+            
             <h1 class="quiz-title">
                 {% if mode == "canonique" %}
                     🌟 Sourate n° {{ question['ordre_canonique'] }}
