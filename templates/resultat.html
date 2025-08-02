@@ -6,7 +6,6 @@
     <title>Résultat du Quiz - QuizSuras</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='resultat.css') }}">
-
 </head>
 <body>
     <div class="result-container">
@@ -17,7 +16,12 @@
         <div class="score-percentage">{{ (score/total*100)|round|int }}% de réussite</div>
         
         <div class="stars">
-            {% set percentage = (score/total*100)|round|int %}
+            {% if total > 0 %}
+                {% set percentage = (score/total*100)|round|int %}
+            {% else %}
+                {% set percentage = 0 %}
+            {% endif %}
+            
             {% if percentage >= 90 %}
                 <span class="star filled">⭐</span>
                 <span class="star filled">⭐</span>
@@ -29,30 +33,41 @@
                 <span class="star filled">⭐</span>
                 <span class="star filled">⭐</span>
                 <span class="star filled">⭐</span>
-                <span class="star">⭐</span>
+                <span class="star empty">⭐</span>
             {% elif percentage >= 50 %}
                 <span class="star filled">⭐</span>
                 <span class="star filled">⭐</span>
                 <span class="star filled">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
             {% elif percentage >= 30 %}
                 <span class="star filled">⭐</span>
                 <span class="star filled">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-            {% else %}
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+            {% elif percentage > 0 %}
                 <span class="star filled">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+            {% else %}
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
+                <span class="star empty">⭐</span>
             {% endif %}
         </div>
         
         <div class="message">
-            {% set percentage = (score/total*100)|round|int %}
+            {% if total > 0 %}
+                {% set percentage = (score/total*100)|round|int %}
+            {% else %}
+                {% set percentage = 0 %}
+            {% endif %}
+            
             {% if percentage >= 90 %}
                 Masha'Allah ! Performance exceptionnelle ! Tu maîtrises parfaitement les sourates. 🌟
             {% elif percentage >= 70 %}
@@ -61,14 +76,16 @@
                 Bon effort ! Tu es sur la bonne voie. Avec un peu plus de pratique, tu excelleras ! 📚
             {% elif percentage >= 30 %}
                 C'est un début ! Continue à apprendre et tu progresseras rapidement. Ne te décourage pas ! 🌱
+            {% elif percentage > 0 %}
+                Continue tes efforts ! Chaque bonne réponse compte et te rapproche de la maîtrise ! 💫
             {% else %}
-                Chaque expert a commencé par être débutant. Continue à étudier, tu y arriveras ! 💫
+                Chaque expert a commencé par être débutant. Continue à étudier, tu y arriveras ! 🌱
             {% endif %}
         </div>
         
+        <!-- Un seul bouton centré -->
         <div class="actions">
             <a href="/reset" class="btn btn-primary">Nouveau Quiz</a>
-            <a href="/" class="btn btn-secondary">Accueil</a>
         </div>
     </div>
 </body>

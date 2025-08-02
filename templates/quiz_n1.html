@@ -28,11 +28,7 @@
             </a>
             
             <h1 class="quiz-title">
-                {% if mode == "canonique" %}
-                    🌟 {{ question["nom"]}} ({{ question["traduction"] }})
-                {% else %}
-                    🌟 {{ question["nom"]}} ({{ question["traduction"] }})
-                {% endif %}
+                🌟 N°{{ question_number }} - {{ question["nom"]}} ({{ question["traduction"] }})
             </h1>
             
             {% if request.form.get("action") != "voir_reponse" %}
@@ -44,9 +40,8 @@
                         <input type="text" id="reponse" name="reponse" class="futuristic-input" placeholder="Entrez votre réponse..." autocomplete="off" autofocus>
                     </div>
                     
-                    <div class="actions-grid">
+                    <div class="actions-grid-two">
                         <button type="submit" name="action" value="valider" class="futuristic-btn btn-primary">Valider</button>
-                        <button type="submit" name="action" value="je_sais_pas" class="futuristic-btn btn-secondary">Passer</button>
                         <button type="submit" name="action" value="voir_reponse" class="futuristic-btn btn-warning">Révéler</button>
                     </div>
                 </form>
@@ -73,7 +68,7 @@
                 </div>
                 
                 <form method="POST">
-                    <div class="actions-grid">
+                    <div class="actions-grid-two">
                         <button type="submit" name="action" value="continuer" class="futuristic-btn btn-primary">Continuer</button>
                         <button type="submit" name="action" value="recommencer" class="futuristic-btn btn-secondary">Recommencer</button>
                     </div>

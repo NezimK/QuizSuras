@@ -2,32 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sélection des éléments spécifiques au niveau 1
     const input = document.getElementById('reponse');
     const buttons = document.querySelectorAll('button');
-    const answerSection = document.querySelector('.answer-section');
     
-    // Gestion de la barre de progression
-      const progressBar = document.getElementById('progress-fill');
+    // Gestion de la barre de progression - CORRIGÉE
+    const progressBar = document.getElementById('progress-fill');
     if (progressBar) {
         const currentQ = parseInt(progressBar.dataset.current);
         const totalQuestions = parseInt(progressBar.dataset.total);
         const progressPercentage = (currentQ / totalQuestions) * 100;
         
-        // Vérifier si on est dans la section réponse (action = voir_reponse)
-        const isInAnswerSection = document.querySelector('.answer-section') !== null;
-        
-        if (isInAnswerSection) {
-            // On est dans la section réponse - pas d'animation
-            progressBar.style.width = progressPercentage + '%';
-            progressBar.style.transition = 'width 0.3s ease';
-        } else {
-            // Nouvelle question - progression depuis la valeur précédente
-            const previousPercentage = ((currentQ - 1) / totalQuestions) * 100;
-            progressBar.style.width = previousPercentage + '%';
-            progressBar.style.transition = 'width 0.8s ease';
-            setTimeout(() => {
-                progressBar.style.width = progressPercentage + '%';
-            }, 300);
-        }
-    
+        // CORRECTION : Toujours définir la progression au bon pourcentage sans animation
+        progressBar.style.width = progressPercentage + '%';
+        progressBar.style.transition = 'width 0.3s ease';
     }
 
     // Focus automatique sur l'input
@@ -68,31 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Effets visuels sur l'input (focus/blur)
-    if (input) {
-        input.addEventListener('focus', () => {
-            input.parentElement.style.transform = 'translateY(-2px)';
-            input.parentElement.style.transition = 'transform 0.3s ease';
-            
-            // Effet de pulsation sur le label
-            const label = input.parentElement.querySelector('label');
-            if (label) {
-                label.style.color = 'var(--primary)';
-                label.style.transition = 'color 0.3s ease';
-            }
-        });
-
-        input.addEventListener('blur', () => {
-            input.parentElement.style.transform = 'translateY(0)';
-            
-            // Retour à la couleur normale du label
-            const label = input.parentElement.querySelector('label');
-            if (label) {
-                label.style.color = 'var(--text-secondary)';
-            }
-        });
-    }
-
     // Gestion des effets sur les boutons
     buttons.forEach(btn => {
         btn.addEventListener('click', e => {
@@ -126,37 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.appendChild(ripple);
         setTimeout(() => ripple.remove(), 600);
     }
-
-    // Gestion des raccourcis clavier
-    document.addEventListener('keydown', (e) => {
-        // Ctrl + Enter pour valider rapidement
-        if (e.ctrlKey && e.key === 'Enter') {
-            e.preventDefault();
-            const validateBtn = document.querySelector('button[value="valider"]');
-            if (validateBtn) {
-                validateBtn.click();
-            }
-        }
-        
-        // Échap pour passer
-        if (e.key === 'Escape') {
-            const passBtn = document.querySelector('button[value="je_sais_pas"]');
-            if (passBtn) {
-                passBtn.click();
-            }
-        }
-    });
-
-    // Animation smooth pour la section réponse si elle existe déjà
-    if (answerSection) {
-        // Scroll vers la section réponse pour s'assurer qu'elle est visible
-        setTimeout(() => {
-            answerSection.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-        }, 200);
-    }
 });
 
 // Styles CSS pour les animations
@@ -168,11 +97,6 @@ additionalStyles.textContent = `
             transform: scale(4); 
             opacity: 0; 
         } 
-    }
-    
-    /* Transition smooth pour tous les éléments */
-    * {
-        transition: all 0.3s ease;
     }
 `;
 

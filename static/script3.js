@@ -1,10 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Sélection des éléments
     const inputs = document.querySelectorAll('input[type="text"]');
-    const answerSection = document.querySelector('.answer-section');
     const buttons = document.querySelectorAll('button');
     const forms = document.querySelectorAll('form');
     let clickedAction = null;
+
+    // Gestion de la barre de progression - CORRIGÉE
+    const progressBar = document.getElementById('progress-fill');
+    if (progressBar) {
+        const currentQ = parseInt(progressBar.dataset.current);
+        const totalQuestions = parseInt(progressBar.dataset.total);
+        const progressPercentage = (currentQ / totalQuestions) * 100;
+        
+        // CORRECTION : Toujours définir la progression au bon pourcentage sans animation
+        progressBar.style.width = progressPercentage + '%';
+        progressBar.style.transition = 'width 0.3s ease';
+    }
 
     // Focus sur le premier input
     if (inputs.length > 0) {
@@ -22,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gestion de la soumission des formulaires
     forms.forEach(form => {
         form.addEventListener('submit', e => {
-            // CHANGEMENT : On ne bloque plus la soumission pour "voir_reponse"
-            // On laisse le serveur gérer l'affichage de la section réponse
             if (clickedAction === 'valider') {
                 const responses = {};
                 inputs.forEach(input => {
@@ -42,18 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 inputs[index + 1].focus();
             }
-        });
-    });
-
-    // Effets visuels sur les inputs
-    inputs.forEach(input => {
-        input.addEventListener('focus', () => {
-            input.parentElement.style.transform = 'translateY(-2px)';
-            input.parentElement.style.transition = 'transform 0.3s ease';
-        });
-
-        input.addEventListener('blur', () => {
-            input.parentElement.style.transform = 'translateY(0)';
         });
     });
 
@@ -81,61 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.appendChild(ripple);
         setTimeout(() => ripple.remove(), 600);
     }
-
-    // Animation d'entrée pour les éléments
-    const animateElements = () => {
-        const title = document.querySelector('.quiz-title');
-        const inputGroups = document.querySelectorAll('.input-group');
-        const actions = document.querySelector('.actions');
-
-        // Animation du titre
-        if (title) {
-            title.style.opacity = '0';
-            title.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                title.style.transition = 'all 0.6s ease';
-                title.style.opacity = '1';
-                title.style.transform = 'translateY(0)';
-            }, 200);
-        }
-
-        // Animation des groupes d'inputs
-        inputGroups.forEach((group, index) => {
-            group.style.opacity = '0';
-            group.style.transform = 'translateX(-20px)';
-            setTimeout(() => {
-                group.style.transition = 'all 0.6s ease';
-                group.style.opacity = '1';
-                group.style.transform = 'translateX(0)';
-            }, 400 + index * 100);
-        });
-
-        // Animation des boutons
-        if (actions) {
-            actions.style.opacity = '0';
-            actions.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                actions.style.transition = 'all 0.6s ease';
-                actions.style.opacity = '1';
-                actions.style.transform = 'translateY(0)';
-            }, 800);
-        }
-    };
-
-    // Lancer les animations
-    animateElements();
-
-    // Animation smooth pour la section réponse si elle existe déjà
-    if (answerSection) {
-        answerSection.style.opacity = '0';
-        answerSection.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            answerSection.style.transition = 'all 0.6s ease';
-            answerSection.style.opacity = '1';
-            answerSection.style.transform = 'translateY(0)';
-            answerSection.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-    }
 });
 
 // Création du style CSS pour l'animation ripple
@@ -146,21 +88,6 @@ style.textContent = `
             transform: scale(4); 
             opacity: 0; 
         } 
-    }
-    
-    .input-group {
-        position: relative;
-        margin-bottom: 1.5rem;
-    }
-    
-    /* Animation de pulsation pour les inputs actifs */
-    input:focus {
-        animation: inputPulse 2s ease-in-out infinite;
-    }
-    
-    @keyframes inputPulse {
-        0%, 100% { box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1); }
-        50% { box-shadow: var(--glow-secondary), inset 0 1px 0 rgba(255,255,255,0.2); }
     }
 `;
 document.head.appendChild(style);

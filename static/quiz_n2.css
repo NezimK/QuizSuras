@@ -82,32 +82,14 @@ body::after {
 /* Quiz container */
 .quiz-container {
     width: 100%;
-    max-width: 950px; /* Garder la largeur que vous aimez */
+    max-width: 950px;
     background: var(--bg-card);
     backdrop-filter: blur(20px);
     border-radius: 24px;
-    padding: 3rem 3rem; /* 2rem vertical, 3rem horizontal */
+    padding: 4rem;
     box-shadow: var(--glow-primary), inset 0 1px 0 rgba(255,255,255,0.1);
     animation: containerPulse 4s ease-in-out infinite;
     position: relative;
-}
-.dual-input-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 1.5rem; /* Réduire de 2rem à 1.5rem */
-}
-
-.actions-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 1.5rem; /* Réduire de 2rem à 1.5rem */
-}
-
-.input-group {
-    position: relative;
-    margin-bottom: 1rem; /* Réduire de 1.5rem à 1rem */
 }
 
 @keyframes containerPulse {
@@ -123,8 +105,8 @@ body::after {
 .progress-bar {
     position: absolute;
     top: 0;
-    left: 9;
-    right: 9;
+    left: 8px;
+    right: 9px;
     height: 6px;
     background: rgba(255,255,255,0.1);
     border-radius: 24px 24px 0 0;
@@ -180,10 +162,10 @@ body::after {
 /* Titre du quiz */
 .quiz-title {
     font-family: 'Orbitron', monospace;
-    font-size: 2rem; /* Réduire de 2.5rem à 2rem */
+    font-size: 2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 1.5rem; /* Réduire de 1rem à 1.5rem mais compenser avec moins de padding */
+    margin-bottom: 1.5rem;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     background-clip: text;
@@ -202,13 +184,13 @@ body::after {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Groupes d'inputs */
 .input-group {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 /* Labels */
@@ -248,12 +230,12 @@ body::after {
     color: var(--text-muted);
 }
 
-/* Grille des actions */
-.actions-grid {
+/* Grille des actions - 2 boutons */
+.actions-grid-two {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
 }
 
 /* Boutons futuristes */
@@ -330,18 +312,28 @@ body::after {
     background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(124,58,237,0.1));
     border: 2px solid rgba(0,212,255,0.3);
     border-radius: 20px;
-    padding: 1.2rem; /* Plus compact */
+    padding: 1.2rem;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 30px rgba(0,212,255,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-    margin-top: 1rem; /* Réduire l'espace au-dessus */
+    margin-top: 1rem;
     animation: sectionSlideIn 0.8s ease-out;
     text-align: center;
     width: 100%;
     box-sizing: border-box;
 }
 
+@keyframes sectionSlideIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
 
-.answer-section .actions-grid {
+.answer-section .actions-grid-two {
     display: flex;
     justify-content: center;
     gap: 2rem;
@@ -351,15 +343,15 @@ body::after {
 .answer-content {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem; /* Réduire l'espace entre les items */
-    margin-bottom: 1rem; /* Moins d'espace avant l'anecdote */
+    gap: 0.8rem;
+    margin-bottom: 1rem;
 }
 
 .answer-item {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    padding: 0.8rem 1rem; /* Padding vertical réduit */
+    padding: 0.8rem 1rem;
     background: rgba(255,255,255,0.05);
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.1);
@@ -381,7 +373,7 @@ body::after {
 }
 
 .answer-value {
-    font-size: 1.2rem; /* Réduire de 1.4rem à 1.2rem */
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--text-primary);
     background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -395,8 +387,8 @@ body::after {
     background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(16,185,129,0.1));
     border: 2px solid rgba(245,158,11,0.3);
     border-radius: 16px;
-    padding: 1rem; /* Plus compact */
-    margin-top: 0.8rem; /* Moins d'espace au-dessus */
+    padding: 1rem;
+    margin-top: 0.8rem;
     backdrop-filter: blur(15px);
     box-shadow: 0 0 20px rgba(245,158,11,0.3);
 }
@@ -415,8 +407,8 @@ body::after {
 }
 
 .anecdote-text {
-    font-size: 0.85rem; /* Texte plus petit */
-    line-height: 1.4; /* Interligne réduit */
+    font-size: 0.85rem;
+    line-height: 1.4;
     color: var(--text-secondary);
     font-style: italic;
     border-left: 3px solid var(--accent);
@@ -424,118 +416,13 @@ body::after {
     text-align: left;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .main-container {
-        padding: 0.5rem;
-    }
-    
-    .quiz-container {
-        padding: 2rem;
-        max-height: 98vh;
-        max-width: 98vw;
-    }
-    
-    .quiz-title {
-        font-size: 1.8rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .dual-input-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .actions-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .answer-section .actions-grid {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1rem; /* Moins d'espace au-dessus des boutons */
-    }
-    
-    .futuristic-btn {
-        padding: 1rem 1.5rem;
-        font-size: 0.9rem;
-    }
-    
-    .anecdote-section {
-        padding: 2rem;
-    }
-    
-    .anecdote-text {
-        font-size: 1rem;
-    }
-    
-    .answer-item {
-        padding: 1.5rem;
-    }
-    
-    .answer-value {
-        font-size: 1.4rem;
-    }
-    
-    .answer-section {
-        padding: 2rem;
-    }
-    
-    .score-badge {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .quiz-container {
-        padding: 1.5rem;
-    }
-    
-    .quiz-title {
-        font-size: 1.5rem;
-    }
-    
-    .score-badge {
-        font-size: 0.8rem;
-        padding: 0.7rem 1.2rem;
-    }
-    
-    .anecdote-section {
-        padding: 1.5rem;
-    }
-    
-    .answer-section {
-        padding: 1.5rem;
-    }
-}
-/* Badge de score - Centré */
-.score-badge {
-    position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: var(--glow-primary);
-    border: 2px solid rgba(255,255,255,0.2);
-    animation: badgePulse 3s ease-in-out infinite;
-    z-index: 10;
-}
-
-/* Bouton reset - En haut à droite */
+/* Bouton terminer - En haut à droite */
 .reset-btn {
     position: absolute;
-    top: 20px;
+    top: 14px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(245, 158, 11, 0.2);
+    border: 2px solid rgba(245, 158, 11, 0.4);
     border-radius: 50px;
     padding: 0.8rem 1.5rem;
     color: var(--text-primary);
@@ -551,10 +438,11 @@ body::after {
 }
 
 .reset-btn:hover {
-    background: linear-gradient(135deg, var(--danger), #dc2626);
-    border-color: var(--danger);
+    background: linear-gradient(135deg, var(--accent), #d97706);
+    border-color: var(--accent);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+    color: white;
 }
 
 .reset-icon {
@@ -565,4 +453,122 @@ body::after {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .quiz-container {
+        max-width: 95vw;
+        padding: 2rem;
+    }
+    
+    .quiz-title {
+        font-size: 1.4rem;
+        padding-right: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 0.5rem;
+    }
+    
+    .quiz-container {
+        padding: 1.5rem;
+        max-height: 98vh;
+        max-width: 98vw;
+    }
+    
+    .quiz-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        padding-right: 0;
+        margin-top: 40px; /* Espace pour le bouton terminer */
+    }
+    
+    .reset-btn {
+        top: 10px;
+        right: 10px;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .dual-input-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .actions-grid-two {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .answer-section .actions-grid-two {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .futuristic-btn {
+        padding: 1rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .anecdote-section {
+        padding: 1rem;
+    }
+    
+    .anecdote-text {
+        font-size: 0.8rem;
+    }
+    
+    .answer-item {
+        padding: 0.8rem;
+    }
+    
+    .answer-value {
+        font-size: 1rem;
+    }
+    
+    .answer-section {
+        padding: 1rem;
+    }
+    
+    .score-badge {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-container {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+    
+    .quiz-title {
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+    
+    .score-badge {
+        font-size: 0.7rem;
+        padding: 0.5rem 0.8rem;
+    }
+    
+    .anecdote-section {
+        padding: 0.8rem;
+    }
+    
+    .answer-section {
+        padding: 0.8rem;
+    }
+    
+    .reset-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.7rem;
+    }
 }

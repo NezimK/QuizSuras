@@ -73,10 +73,12 @@ def quiz():
     # Fin du quiz
     if current_q >= len(sourates):
         score = session["score"]
-        total = len(sourates) * niveau_max(niveau)
+        # Calculer le total basé sur les questions réellement répondues
+        questions_repondues = current_q
+        total = questions_repondues * niveau_max(niveau)
         # Nettoyer la session sauf le score et total pour la page de résultat
         session.clear()
-        return render_template("resultat.html", score=score, total=total)
+        return render_template("resultat.html", score=score, total=total, questions_repondues=questions_repondues)
 
     question = sourates[current_q]
 
@@ -129,31 +131,38 @@ def quiz():
                          question=question, 
                          score=session["score"], 
                          mode=mode, 
-                         current_q=current_q, 
-                         total_questions=total_questions)
+                         current_q=current_q,  # Garder current_q tel quel pour la barre
+                         total_questions=total_questions,
+                         question_number=current_q + 1)  # +1 seulement pour l'affichage
 
 @app.route('/terminer')
 def terminer():
     """Route pour terminer le quiz prématurément et afficher les résultats"""
     niveau = session.get("niveau")
     mode = session.get("mode")
+    current_q = session.get("current_q", 0)
     
     # Si pas de quiz en cours, rediriger vers l'accueil
     if not niveau:
         return redirect(url_for("home"))
     
-    # Calculer le score final avec les questions répondues
-    try:
-        sourates = charger_et_trier_sourates(mode)
-        total = len(sourates) * niveau_max(niveau)
-        score = session.get("score", 0)
-        
-        # Nettoyer la session
-        session.clear()
-        
-        return render_template("resultat.html", score=score, total=total)
-    except:
-        return redirect(url_for("home"))
+    # Calculer le score final avec les questions réellement répondues
+    score = session.get("score", 0)
+    # Le nombre de questions répondues est égal à current_q
+    questions_repondues = current_q
+    
+    # Éviter la division par zéro : si aucune question répondue, considérer au moins 1
+    if questions_repondues == 0:
+        questions_repondues = 1
+        total = niveau_max(niveau)
+        score = 0  # Score forcé à 0 si aucune question répondue
+    else:
+        total = questions_repondues * niveau_max(niveau)
+    
+    # Nettoyer la session
+    session.clear()
+    
+    return render_template("resultat.html", score=score, total=total, questions_repondues=current_q)
 
 def nettoyer_nom(texte):
     return re.sub(r"[-'\s]", "", texte.lower())
