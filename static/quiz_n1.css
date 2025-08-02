@@ -531,8 +531,7 @@ body::after {
     animation: badgePulse 3s ease-in-out infinite;
     z-index: 10;
 }
-
-/* Bouton reset - En haut à droite */
+/* Bouton terminer - En haut à droite */
 .reset-btn {
     position: absolute;
     top: 20px;
@@ -554,10 +553,11 @@ body::after {
 }
 
 .reset-btn:hover {
-    background: linear-gradient(135deg, var(--danger), #dc2626);
-    border-color: var(--danger);
+    background: linear-gradient(135deg, var(--accent), #d97706);
+    border-color: var(--accent);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+    color: white;
 }
 
 .reset-icon {
@@ -568,4 +568,16 @@ body::after {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+/* Style spécifique pour le bouton terminer */
+.reset-btn[href="/terminer"] {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+.reset-btn[href="/terminer"]:hover {
+    background: linear-gradient(135deg, var(--accent), #d97706);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
 }

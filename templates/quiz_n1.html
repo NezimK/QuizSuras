@@ -21,10 +21,10 @@
             <!-- Score badge centré -->
             <div class="score-badge">🏆 Score: {{ score }}</div>
             
-            <!-- Bouton reset en haut à droite -->
-            <a href="/reset" class="reset-btn" title="Retour à l'accueil">
-                <span class="reset-icon">⏮</span>
-                <span class="reset-text">Accueil</span>
+            <!-- Bouton terminer en haut à droite -->
+            <a href="/terminer" class="reset-btn" title="Terminer le quiz et voir les résultats">
+                <span class="reset-icon">🏁</span>
+                <span class="reset-text">Terminer</span>
             </a>
             
             <h1 class="quiz-title">
@@ -35,7 +35,8 @@
                 {% endif %}
             </h1>
             
-{% if request.form.get("action") != "voir_reponse" and not session.get("just_validated") %}            <!-- Section Question (affichée par défaut) -->
+            {% if request.form.get("action") != "voir_reponse" %}
+            <!-- Section Question (affichée par défaut) -->
             <div class="form-container">
                 <form method="POST">
                     <div class="input-group">
