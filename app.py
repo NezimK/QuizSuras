@@ -6,6 +6,26 @@ import random
 app = Flask(__name__)
 app.secret_key = "votre_clé_secrète_sécurisée_2024"  # À changer en production
 
+def charger_et_trier_sourates(mode):
+    """Charge et trie les sourates selon le mode"""
+    with open("sourates.json", "r", encoding="utf-8") as f:
+        sourates = json.load(f)
+
+    # Tri selon le mode choisi
+    if mode == "canonique":
+        sourates.sort(key=lambda s: s["ordre_canonique"])
+    elif mode == "chronologique":
+        sourates.sort(key=lambda s: s["ordre_chronologique"])
+    elif mode == "aleatoire":
+        # Pour l'aléatoire, on utilise une seed basée sur la session pour que l'ordre reste constant
+        if "random_seed" not in session:
+            session["random_seed"] = random.randint(1, 10000)
+        random.seed(session["random_seed"])
+        random.shuffle(sourates)
+        random.seed()  # Reset la seed
+
+    return sourates
+
 @app.route('/')
 def home():
     # Page d'accueil avec le choix du niveau
@@ -22,46 +42,32 @@ def start_quiz():
     ):
         return "Niveau ou mode invalide", 400
 
+    # Nettoyer la session et ne stocker que les infos essentielles
     session.clear()
     session["niveau"] = niveau
     session["mode"] = mode
     session["score"] = 0
     session["current_q"] = 0
+    
     return redirect("/quiz")
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    niveau = request.args.get("niveau") or session.get("niveau")
+    niveau = session.get("niveau")
+    mode = session.get("mode")
 
     # Si aucun niveau n'est sélectionné, rediriger vers la page d'accueil
     if not niveau:
         return redirect(url_for("home"))
 
-    # Enregistre le niveau dans la session s'il est nouveau
-    if "niveau" not in session:
-        session["niveau"] = niveau
-        session["score"] = 0
-        session["current_q"] = 0
-        
-    mode = session.get("mode", "canonique")
-
-    # Charger les données
-    if "questions" not in session:
-        with open("sourates.json", "r", encoding="utf-8") as f:
-            sourates = json.load(f)
-
-        if mode == "canonique":
-            sourates.sort(key=lambda s: s["ordre_canonique"])
-        elif mode == "chronologique":
-            sourates.sort(key=lambda s: s["ordre_chronologique"])
-        elif mode == "aleatoire":
-            random.shuffle(sourates)
-
-        # Stocker les données traitées dans la session
-        session["questions"] = sourates
-
-    # Toujours charger les questions depuis la session
-    sourates = session["questions"]
+    # Charger les sourates à chaque fois (pas de stockage en session)
+    try:
+        sourates = charger_et_trier_sourates(mode)
+    except FileNotFoundError:
+        return "Fichier sourates.json non trouvé", 500
+    except json.JSONDecodeError as e:
+        return f"Erreur JSON: {e}", 500
+    
     current_q = session["current_q"]
 
     # Fin du quiz
@@ -119,7 +125,35 @@ def quiz():
     total_questions = len(sourates)
 
     # Afficher le template correspondant au niveau
-    return render_template(f"quiz_n{niveau}.html", question=question, score=session["score"], mode=mode, current_q=current_q, total_questions=total_questions)
+    return render_template(f"quiz_n{niveau}.html", 
+                         question=question, 
+                         score=session["score"], 
+                         mode=mode, 
+                         current_q=current_q, 
+                         total_questions=total_questions)
+
+@app.route('/terminer')
+def terminer():
+    """Route pour terminer le quiz prématurément et afficher les résultats"""
+    niveau = session.get("niveau")
+    mode = session.get("mode")
+    
+    # Si pas de quiz en cours, rediriger vers l'accueil
+    if not niveau:
+        return redirect(url_for("home"))
+    
+    # Calculer le score final avec les questions répondues
+    try:
+        sourates = charger_et_trier_sourates(mode)
+        total = len(sourates) * niveau_max(niveau)
+        score = session.get("score", 0)
+        
+        # Nettoyer la session
+        session.clear()
+        
+        return render_template("resultat.html", score=score, total=total)
+    except:
+        return redirect(url_for("home"))
 
 def nettoyer_nom(texte):
     return re.sub(r"[-'\s]", "", texte.lower())
