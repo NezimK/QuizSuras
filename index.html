@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choix du niveau</title>
+    <title>QuizSuras - Testez vos connaissances</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 
 <body class="home">
     <div class="container">
         <h1>Choisis ton niveau</h1>
         
-        <form action="/start" method="POST" class="level">
+        <div class="level">
             <div class="selections-container">
                 <!-- Section Niveau -->
                 <div class="selection-section">
@@ -52,11 +51,14 @@
                 </div>
             </div>
 
-            <button type="submit">Commencer le Quiz</button>
-        </form>
+            <!-- BOUTON SIMPLE (pas dans un formulaire) -->
+            <button type="submit" id="startQuizBtn" disabled>Commencer le Quiz</button>
+        </div>
     </div>
 
-    <script src="{{ url_for('static', filename='home.js') }}"></script>
+    <!-- SCRIPTS DANS LE BON ORDRE -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/home.js"></script>
 </body>
-
 </html>

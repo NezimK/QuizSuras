@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizSuras - Quiz en cours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/quiz.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="quiz-container">
+            <!-- Barre de progression -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Score badge centré -->
+            <div class="score-badge" id="score-badge">🏆 Score: 0</div>
+
+            <!-- Bouton terminer en haut à droite -->
+            <button class="reset-btn" id="terminer-btn" title="Terminer le quiz et voir les résultats">
+                <span class="reset-icon">🏁</span>
+                <span class="reset-text">Terminer</span>
+            </button>
+
+            <!-- Titre de la question -->
+            <h1 class="quiz-title" id="quiz-title">
+                🌟 Chargement...
+            </h1>
+
+            <!-- SECTION QUESTION -->
+            <div class="form-container" id="question-section">
+                <!-- Niveau 1 -->
+                <div id="niveau-1-inputs" class="niveau-inputs" style="display: none;">
+                    <div class="input-group">
+                        <label class="input-label" for="reponse-n1">💫 Nombre de versets</label>
+                        <input type="text" id="reponse-n1" class="futuristic-input"
+                            placeholder="Entrez votre réponse..." autocomplete="off">
+                    </div>
+                </div>
+
+                <!-- Niveau 2 -->
+                <div id="niveau-2-inputs" class="niveau-inputs" style="display: none;">
+                    <div class="dual-input-grid">
+                        <div class="input-group">
+                            <label class="input-label" for="versets-n2">📜 Nombre de versets</label>
+                            <input type="text" id="versets-n2" class="futuristic-input"
+                                placeholder="Entrez le nombre..." autocomplete="off">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label" for="traduction-n2">🌍 Traduction française</label>
+                            <input type="text" id="traduction-n2" class="futuristic-input"
+                                placeholder="Entrez la traduction..." autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Niveau 3 -->
+                <div id="niveau-3-inputs" class="niveau-inputs" style="display: none;">
+                    <div class="single-input-grid">
+                        <div class="input-group">
+                            <div class="triple-input-grid">
+                                <div class="input-group">
+                                    <label class="input-label" for="versets-n3">💫 Nombre de versets</label>
+                                    <input type="text" id="versets-n3" class="futuristic-input"
+                                        placeholder="Entrez le nombre..." autocomplete="off">
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label" for="nom-n3">📜 Nom arabe (phonétique)</label>
+                                    <input type="text" id="nom-n3" class="futuristic-input"
+                                        placeholder="Entrez le nom arabe..." autocomplete="off">
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label" for="traduction-n3">🌍 Traduction française</label>
+                                    <input type="text" id="traduction-n3" class="futuristic-input"
+                                        placeholder="Entrez la traduction..." autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="actions-grid-two">
+                    <button type="button" id="valider-btn" class="futuristic-btn btn-primary">Valider</button>
+                    <button type="button" id="reveler-btn" class="futuristic-btn btn-warning">Révéler</button>
+                </div>
+            </div>
+
+            <!-- SECTION RÉPONSE -->
+            <div class="answer-section" id="answer-section" style="display: none;">
+                <div class="answer-content" id="answer-content">
+                    <!-- Les réponses seront générées dynamiquement -->
+                </div>
+
+                <!-- Section anecdote -->
+                <div class="anecdote-section">
+                    <div class="anecdote-title">
+                        <span>💡</span>
+                        <span>Le saviez-vous ?</span>
+                    </div>
+                    <div class="anecdote-text" id="anecdote-text">
+                        <!-- L'anecdote sera insérée ici -->
+                    </div>
+                </div>
+
+                <!-- Boutons de navigation -->
+                <div class="actions-grid-two">
+                    <button type="button" id="continuer-btn" class="futuristic-btn btn-primary">Continuer</button>
+                    <button type="button" id="recommencer-btn" class="futuristic-btn btn-secondary">Recommencer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>
