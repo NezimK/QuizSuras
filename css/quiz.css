@@ -623,3 +623,40 @@ body::after {
         line-height: 1.2;
     }
 }
+
+@media (max-width: 1200px) {
+    .reset-btn {
+        top: 10px;
+        right: 15px;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .reset-btn {
+        top: 8px;
+        right: 10px;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        gap: 0.3rem;
+    }
+    
+    .reset-text {
+        display: none; /* Masquer le texte sur mobile, garder seulement l'icône */
+    }
+}
+
+@media (max-width: 480px) {
+    .reset-btn {
+        top: 5px;
+        right: 5px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        border-radius: 25px;
+    }
+    
+    .reset-icon {
+        font-size: 1rem;
+    }
+}
